@@ -14,15 +14,17 @@ namespace ScaleGraph.Graph
          private Color color;
          private Point coordinate;
          private int radius;
+         private int number;
 
 
-        public Node(int levelVisible, Color color, Point coordinate, int radius)
+        public Node(int levelVisible, Color color, Point coordinate, int radius, int number)
          {
              this.levelVisile = levelVisible;
              edges = new List<Edge>();
              this.color = color;
              this.coordinate = coordinate;
              this.radius = radius;
+             this.number = number;
          }
 
        public int LevelVisible
@@ -84,6 +86,5 @@ namespace ScaleGraph.Graph
        {
            edges.Add(edge);
        }
-
     }
 }

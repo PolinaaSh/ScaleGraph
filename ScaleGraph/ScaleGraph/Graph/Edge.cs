@@ -11,10 +11,14 @@ namespace ScaleGraph.Graph
     {
         private Node nodeFirst, nodeSecond;//номера вершин, которые соединяет
         private Color color;
+        private int width;
 
-        public Edge(Color color)
+        public Edge(Node nodeFirst, Node nodeSecond, Color color, int width)
         {
+            this.nodeFirst = nodeFirst;
+            this.nodeSecond = nodeSecond;
             this.color = color;
+            this.width = width;
         }
 
         public Node NodeFirst
@@ -50,6 +54,14 @@ namespace ScaleGraph.Graph
             set
             {
                 this.color = value;
+            }
+        }
+
+        public int Width
+        {
+            get
+            {
+                return this.width;
             }
         }
     }
