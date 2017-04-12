@@ -10,13 +10,12 @@ namespace ScaleGraph.Edit
 {
     class Editing
     {
-
-
-        private List<Node> nodes;
-       
-        public Editing(List<Node> nodes)
+        List<Node> nodes;
+        List<Edge> edges;
+        public Editing(List<Node> nodes, List<Edge> edges)
         {
             this.nodes = nodes;
+            this.edges = edges;
         }
 
         public void AddNode(int levelVisible, Color color, Point coordinate, int radius, int number)
@@ -26,10 +25,19 @@ namespace ScaleGraph.Edit
 
         public void AddEdge(Node nodeFirst, Node nodeSecond, Color color , int width)
         {
-           Node first =  nodes.Find((Node node) => node.Equals(nodeFirst));
-           first.AddEdge(new Edge(nodeFirst, nodeSecond , color,width));
-           Node second = nodes.Find((Node node) => node.Equals(nodeSecond));
-           second.AddEdge(new Edge(nodeFirst, nodeSecond, color,width));
+            edges.Add(new Edge(nodeFirst, nodeSecond,color, width));
+           //first.AddEdge(new Edge(nodeFirst, nodeSecond , color,width));
+          // second.AddEdge(new Edge(nodeFirst, nodeSecond, color,width));
+        }
+
+        public Bitmap DrawGraph()
+        {
+            Bitmap bitmap = null;
+            foreach(Node n in nodes)
+            {
+
+            }
+            return bitmap;
         }
     }
 }
