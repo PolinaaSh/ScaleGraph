@@ -31,7 +31,9 @@
             this.GraphPicture = new System.Windows.Forms.PictureBox();
             this.AddNodeButton = new System.Windows.Forms.Button();
             this.AddEdgeButton = new System.Windows.Forms.Button();
+            this.graphBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.GraphPicture)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.graphBox)).BeginInit();
             this.SuspendLayout();
             // 
             // GraphPicture
@@ -61,11 +63,21 @@
             this.AddEdgeButton.Text = "AddEdge";
             this.AddEdgeButton.UseVisualStyleBackColor = true;
             // 
+            // graphBox
+            // 
+            this.graphBox.Location = new System.Drawing.Point(2, 41);
+            this.graphBox.Name = "graphBox";
+            this.graphBox.Size = new System.Drawing.Size(932, 415);
+            this.graphBox.TabIndex = 3;
+            this.graphBox.TabStop = false;
+            this.graphBox.Click += new System.EventHandler(this.graphBox_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(936, 455);
+            this.Controls.Add(this.graphBox);
             this.Controls.Add(this.AddEdgeButton);
             this.Controls.Add(this.AddNodeButton);
             this.Controls.Add(this.GraphPicture);
@@ -73,6 +85,7 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.GraphPicture)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.graphBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -82,6 +95,7 @@
         private System.Windows.Forms.PictureBox GraphPicture;
         private System.Windows.Forms.Button AddNodeButton;
         private System.Windows.Forms.Button AddEdgeButton;
+        private System.Windows.Forms.PictureBox graphBox;
     }
 }
 

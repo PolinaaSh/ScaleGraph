@@ -95,9 +95,21 @@ namespace ScaleGraph.Graph
            }
        }
 
+        public int Radius
+       {
+           get
+           {
+               return radius;
+           }
+            set
+           {
+               radius = value;
+           }
+       }
+
        public void AddEdge(Edge edge)
        {
-           edges.Add(edge);
+          // edges.Add(edge);
        }
     }
 }

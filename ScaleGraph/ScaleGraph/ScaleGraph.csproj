@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Main.cs" />
+    <Compile Include="Core\DataHolder.cs" />
     <Compile Include="Edit\Editing.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

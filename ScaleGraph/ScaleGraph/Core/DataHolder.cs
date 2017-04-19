@@ -15,14 +15,23 @@ namespace ScaleGraph.Core
         private List<Node> nodes;
         private List<Edge> edges;
         private int maxNodeNumber = 0;
+
         private Editing edit;
 
-        public void StartView()
+        private int currentVisible;
+        private Color currentColor;
+        private int currentRadius;
+
+        public DataHolder()
         {
             nodes = new List<Node>();
             edges = new List<Edge>();
             Reading();
             edit = new Editing(nodes, edges);
+
+            currentVisible = 1;
+            currentColor = Color.Black;
+            currentRadius = 5;
         }
 
         private void ReadNodes()
@@ -150,6 +159,47 @@ namespace ScaleGraph.Core
                 writer.Close();
                 fs.Close();
             }
+        }
+
+        public int CurrentVisible
+        {
+            get
+            {
+                return currentVisible;
+            }
+            set
+            {
+                currentVisible = value;
+            }
+        }
+
+        public Color CurrentColor
+        {
+            get
+            {
+                return currentColor;
+            }
+            set
+            {
+                currentColor = value;
+            }
+        }
+
+        public int CurrentRadius
+        {
+            get
+            {
+                return currentRadius;
+            }
+            set
+            {
+                currentRadius = value;
+            }
+        }
+
+        public Bitmap Draw(Rectangle rect)
+        {
+            return edit.DrawGraph(rect);
         }
 
     }

@@ -14,15 +14,17 @@ namespace ScaleGraph
     public partial class Form1 : Form
     {
         DataHolder dataHolder;
-        int currentVisible;
-        int currentRadius;
-        Color currentColor;
+        Graphics g;
+        bool addNode ;
 
         public Form1()
         {
             InitializeComponent();
             dataHolder = new DataHolder();
-            dataHolder.Reading();
+           // dataHolder.Reading();
+            graphBox.Image = dataHolder.Draw(ClientRectangle);
+            g = CreateGraphics();
+            addNode = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -32,7 +34,19 @@ namespace ScaleGraph
 
         private void AddNodeButton_Click(object sender, EventArgs e)
         {
-            dataHolder.WriteNode(currentVisible, currentColor, new Point(20,20), currentRadius);
+            addNode = true;
         }
+
+        private void graphBox_Click(object sender, EventArgs e)
+        {
+            if (addNode)
+            {
+                MouseEventArgs e1 = (MouseEventArgs)e;
+                dataHolder.WriteNode(dataHolder.CurrentVisible, dataHolder.CurrentColor, new Point(e1.X, e1.Y), dataHolder.CurrentRadius);
+                graphBox.Image = dataHolder.Draw(ClientRectangle);
+                addNode = false;
+            }
+        }
+
     }
 }
