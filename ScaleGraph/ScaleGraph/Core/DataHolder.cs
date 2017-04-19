@@ -31,7 +31,7 @@ namespace ScaleGraph.Core
 
             currentVisible = 1;
             currentColor = Color.Black;
-            currentRadius = 5;
+            currentRadius = 10;
         }
 
         private void ReadNodes()
@@ -48,7 +48,7 @@ namespace ScaleGraph.Core
             {
                 lineResult = line.Split(' ');
                 nodes.Add(new Node((Convert.ToInt32(lineResult[0])),Color.FromName(lineResult[1]),
-                    new Point(Convert.ToInt32(lineResult[2]), Convert.ToInt32(lineResult[3])), Convert.ToInt32(lineResult[4]), maxNodeNumber++));
+                    new Point(Convert.ToInt32(lineResult[2]), Convert.ToInt32(lineResult[3])), Convert.ToInt32(lineResult[4]), ++maxNodeNumber));
             }
             }
             catch(Exception e)
@@ -59,6 +59,64 @@ namespace ScaleGraph.Core
             {
             reader.Close();
             fs.Close();
+            }
+        }
+
+        public void WriteData()
+        {
+            WriteNode();
+            WriteEdge();
+        }
+        private void WriteNode()
+        {
+            FileStream fs = null;
+            StreamWriter writer = null;
+            try
+            {
+                fs = new FileStream("Nodes.txt", FileMode.Create, FileAccess.Write);
+                writer = new StreamWriter(fs);
+                foreach (Node n in nodes)
+                {
+                    string line = n.LevelVisible.ToString() + ' ' + ColorToStr(n.Color) + ' ' + n.Coordinate.X.ToString() + ' '
+                        + n.Coordinate.Y.ToString() + ' ' + n.Radius.ToString() + ' ' + n.Number.ToString();
+
+                    writer.WriteLine(line);
+                }
+
+            }
+            catch (Exception e)
+            {
+                //Не оставлять пустым!!!!!!!!!!!
+            }
+            finally
+            {
+                writer.Close();
+                fs.Close();
+            }
+        }
+
+        private void WriteEdge()
+        {
+            FileStream fs = null;
+            StreamWriter writer = null;
+            try
+            {
+                fs = new FileStream("Edges.txt", FileMode.Create, FileAccess.Write);
+                writer = new StreamWriter(fs);
+                foreach (Edge edge in edges)
+                {             
+                    String edgeInfo = edge.NodeFirst.Number.ToString() + ' ' +edge.NodeSecond.Number.ToString() + ' ' + ColorToStr(edge.Color) + ' ' + edge.Width.ToString();
+                    writer.WriteLine(edgeInfo);
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            finally
+            {
+                writer.Close();
+                fs.Close();
             }
         }
 
@@ -100,67 +158,25 @@ namespace ScaleGraph.Core
         {
             foreach(Node n in nodes)
             {
-                if (n.Coordinate != coordinate)
+                if ((n.Coordinate.X >= coordinate.X - 5 && n.Coordinate.X <= coordinate.X +5)
+                    && (n.Coordinate.Y >= coordinate.Y - 5 && n.Coordinate.Y <= coordinate.Y + 5))
                     return n;
             }
             return null;
         }
 
-        public void WriteNode(int levelVisible, Color color, Point coordinate, int radius)
+        public void AddNode(int levelVisible, Color color, Point coordinate, int radius)
         {
-            FileStream fs = null;
-            StreamWriter writer = null;
-            try
-            {
-                fs = new FileStream("Nodes.txt", FileMode.OpenOrCreate, FileAccess.Write);
-                writer = new StreamWriter(fs);
-
-                edit.AddNode(levelVisible,color, coordinate, radius, ++maxNodeNumber);
-
-                string line = levelVisible.ToString() + ' ' + color.ToString() + ' ' + coordinate.X.ToString() + ' '
-                    + coordinate.Y.ToString() + ' ' + radius.ToString() + ' ' + maxNodeNumber.ToString();
-
-                writer.WriteLine(line);
-               
-            }
-            catch (Exception e)
-            {
-                //Не оставлять пустым!!!!!!!!!!!
-            }
-            finally
-            {
-                writer.Close();
-                fs.Close();
-            }
+            edit.AddNode(levelVisible, color, coordinate, radius, ++maxNodeNumber);
         }
 
-        public void WriteEdge(Point firstCoordinate, Point secondCoordinate, Color color, int width)
+        public void AddEdge(Point firstCoordinate, Point secondCoordinate, Color color, int width)
         {
-            FileStream fs = null;
-            StreamWriter writer = null;
-            try
-            {
-                fs = new FileStream("Edges.txt", FileMode.OpenOrCreate, FileAccess.Write);
-                writer = new StreamWriter(fs);
-
-                Node first = SearchNode(firstCoordinate);
-                Node second = SearchNode(secondCoordinate);
-                edit.AddEdge(first,second, color, width);
-
-                String edgeInfo = first.Number.ToString() + ' ' + second.Number.ToString() + ' ' + color.ToString() + ' ' + width.ToString();
-                writer.WriteLine(edgeInfo);
-            }
-            catch(Exception e)
-            {
-
-            }
-            finally
-            {
-                writer.Close();
-                fs.Close();
-            }
+            Node first = SearchNode(firstCoordinate);
+            Node second = SearchNode(secondCoordinate);
+            edit.AddEdge(first, second, color, width);
         }
-
+       
         public int CurrentVisible
         {
             get
@@ -197,10 +213,17 @@ namespace ScaleGraph.Core
             }
         }
 
-        public Bitmap Draw(Rectangle rect)
+        public Bitmap Draw(Rectangle rect, bool drawEdge, Point p1, Point p2)
         {
-            return edit.DrawGraph(rect);
+            return edit.DrawGraph(rect,1, drawEdge,p1,p2);
         }
 
+        private String ColorToStr(Color color)
+        {
+            String res = color.ToString();
+            res = res.Remove(res.Length-1);
+            res = res.Substring(7,res.Length-7);
+            return res;
+        }
     }
 }

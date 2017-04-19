@@ -62,6 +62,7 @@
             this.AddEdgeButton.TabIndex = 2;
             this.AddEdgeButton.Text = "AddEdge";
             this.AddEdgeButton.UseVisualStyleBackColor = true;
+            this.AddEdgeButton.Click += new System.EventHandler(this.AddEdgeButton_Click);
             // 
             // graphBox
             // 
@@ -71,6 +72,7 @@
             this.graphBox.TabIndex = 3;
             this.graphBox.TabStop = false;
             this.graphBox.Click += new System.EventHandler(this.graphBox_Click);
+            this.graphBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.graphBox_MouseMove);
             // 
             // Form1
             // 
@@ -83,6 +85,7 @@
             this.Controls.Add(this.GraphPicture);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.GraphPicture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.graphBox)).EndInit();
