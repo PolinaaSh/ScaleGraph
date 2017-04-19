@@ -14,16 +14,20 @@ namespace ScaleGraph
     public partial class Form1 : Form
     {
         DataHolder dataHolder;
-        bool addNode ;
+
+        bool addNode;
         bool addEdge;
-        MouseEventArgs node1;
         int edgeCount;
+
+        MouseEventArgs node1;
+
+        float currScale = 1;
 
         public Form1()
         {
             InitializeComponent();
             dataHolder = new DataHolder();
-            graphBox.Image = dataHolder.Draw(ClientRectangle, false, new Point (0,0),new Point (0,0));
+            graphBox.Image = dataHolder.Draw(ClientRectangle, false, new Point (0,0),new Point (0,0),currScale);
             addNode = false;
             edgeCount = 2;
         }
@@ -44,8 +48,8 @@ namespace ScaleGraph
             if (addNode)
             {
                 MouseEventArgs e1 = (MouseEventArgs)e;
-                dataHolder.AddNode(dataHolder.CurrentVisible, dataHolder.CurrentColor, new Point(e1.X, e1.Y), dataHolder.CurrentRadius);
-                graphBox.Image = dataHolder.Draw(ClientRectangle, false,new Point (0,0), new Point (0,0));
+                dataHolder.AddNode(dataHolder.CurrentVisible, dataHolder.CurrentColor, new PointF(e1.X, e1.Y), dataHolder.CurrentRadius);
+                graphBox.Image = dataHolder.Draw(ClientRectangle, false,new Point (0,0), new Point (0,0), currScale);
                 addNode = false;
             }
             else if(addEdge)
@@ -57,8 +61,8 @@ namespace ScaleGraph
                 }
                 else if(edgeCount == 1)
                 {
-                    dataHolder.AddEdge(node1.Location, ((MouseEventArgs)e).Location, dataHolder.CurrentColor,20    );
-                    graphBox.Image = dataHolder.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0));
+                    dataHolder.AddEdge(node1.Location, ((MouseEventArgs)e).Location, dataHolder.CurrentColor,20);
+                    graphBox.Image = dataHolder.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), currScale);
                     edgeCount = 2;
                 }
             }
@@ -79,25 +83,21 @@ namespace ScaleGraph
         {
             if(addEdge && edgeCount == 1)
             {
-                graphBox.Image = dataHolder.Draw(ClientRectangle, true, node1.Location, e.Location);
+                graphBox.Image = dataHolder.Draw(ClientRectangle, true, node1.Location, e.Location, currScale);
             }
         }
 
         private void trackBar_Scroll(object sender, EventArgs e)
         {
-            double visible = trackBar.Value / 2 + 0.5;
+            double visible = (double)trackBar.Value / 2 + 0.5;
             dataHolder.CurrentVisible = (int)visible;
+            currScale = 1 +  trackBar.Value*0.1F;
+            graphBox.Image = dataHolder.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), currScale);
         }
 
         private void trackBar_ValueChanged(object sender, EventArgs e)
         {
            
         }
-
-        private void GraphPicture_Click(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }

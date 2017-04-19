@@ -154,7 +154,7 @@ namespace ScaleGraph.Core
             ReadEdges();
         }
 
-        public Node SearchNode(Point coordinate)
+        public Node SearchNode(PointF coordinate)
         {
             foreach(Node n in nodes)
             {
@@ -165,12 +165,12 @@ namespace ScaleGraph.Core
             return null;
         }
 
-        public void AddNode(int levelVisible, Color color, Point coordinate, int radius)
+        public void AddNode(int levelVisible, Color color, PointF coordinate, int radius)
         {
             edit.AddNode(levelVisible, color, coordinate, radius, ++maxNodeNumber);
         }
 
-        public void AddEdge(Point firstCoordinate, Point secondCoordinate, Color color, int width)
+        public void AddEdge(PointF firstCoordinate, PointF secondCoordinate, Color color, int width)
         {
             Node first = SearchNode(firstCoordinate);
             Node second = SearchNode(secondCoordinate);
@@ -213,9 +213,9 @@ namespace ScaleGraph.Core
             }
         }
 
-        public Bitmap Draw(Rectangle rect, bool drawEdge, Point p1, Point p2)
+        public Bitmap Draw(Rectangle rect, bool drawEdge, PointF p1, PointF p2, float k)
         {
-            return edit.DrawGraph(rect,1, drawEdge,p1,p2, currentVisible);
+            return edit.DrawGraph(rect, k, drawEdge,p1,p2, currentVisible);
         }
 
         private String ColorToStr(Color color)
@@ -224,6 +224,11 @@ namespace ScaleGraph.Core
             res = res.Remove(res.Length-1);
             res = res.Substring(7,res.Length-7);
             return res;
+        }
+
+        public void Scale(float k)
+        {
+
         }
     }
 }

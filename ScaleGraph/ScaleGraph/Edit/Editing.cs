@@ -19,7 +19,7 @@ namespace ScaleGraph.Edit
             this.edges = edges;
         }
 
-        public void AddNode(int levelVisible, Color color, Point coordinate, int radius, int number)
+        public void AddNode(int levelVisible, Color color, PointF coordinate, int radius, int number)
         {
             nodes.Add(new Node(levelVisible, color, coordinate, radius, number));
         }
@@ -30,7 +30,7 @@ namespace ScaleGraph.Edit
         }
 
        
-        public Bitmap DrawGraph(Rectangle r, int k, bool drawEdge, Point p1, Point p2, int currVisible)
+        public Bitmap DrawGraph(Rectangle r, float k, bool drawEdge, PointF p1, PointF p2, int currVisible)
         {
             Bitmap bitmap = new Bitmap(r.Width, r.Height);
             using (Graphics g = Graphics.FromImage(bitmap))
@@ -40,8 +40,8 @@ namespace ScaleGraph.Edit
                     if (n.LevelVisible <= currVisible)
                     {
                         Brush brush = new SolidBrush(n.Color);
-                        int scaleRadius = n.Radius * 2 * k;
-                        g.FillEllipse(brush, n.Coordinate.X - scaleRadius / 2, n.Coordinate.Y - scaleRadius / 2, scaleRadius, scaleRadius);
+                        float scaleRadius = n.Radius * k;
+                        g.FillEllipse(brush,k*( n.Coordinate.X - scaleRadius),k*( n.Coordinate.Y - scaleRadius), scaleRadius*2, scaleRadius*2);
                         brush.Dispose();
                     }
                 }
@@ -50,8 +50,11 @@ namespace ScaleGraph.Edit
                 {
                     if (edge.LevelVisible <= currVisible)
                     {
-                        Pen pen = new Pen(edge.Color, edge.Width);
-                        g.DrawLine(pen, edge.NodeFirst.Coordinate, edge.NodeSecond.Coordinate);
+                        float scaleRadius = edge.NodeFirst.Radius * k;
+                        Pen pen = new Pen(edge.Color, edge.Width*k);
+
+                        g.DrawLine(pen, edge.NodeFirst.Coordinate.X * k-scaleRadius , edge.NodeFirst.Coordinate.Y * k-scaleRadius, edge.NodeSecond.Coordinate.X * k - scaleRadius, edge.NodeSecond.Coordinate.Y * k - scaleRadius);
+                       
                         pen.Dispose();
                     }
                 }
