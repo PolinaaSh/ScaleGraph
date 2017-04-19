@@ -105,7 +105,7 @@ namespace ScaleGraph.Core
                 writer = new StreamWriter(fs);
                 foreach (Edge edge in edges)
                 {             
-                    String edgeInfo = edge.NodeFirst.Number.ToString() + ' ' +edge.NodeSecond.Number.ToString() + ' ' + ColorToStr(edge.Color) + ' ' + edge.Width.ToString();
+                    String edgeInfo = edge.LevelVisible.ToString()+' ' + edge.NodeFirst.Number.ToString() + ' ' +edge.NodeSecond.Number.ToString() + ' ' + ColorToStr(edge.Color) + ' ' + edge.Width.ToString();
                     writer.WriteLine(edgeInfo);
                 }
             }
@@ -133,8 +133,8 @@ namespace ScaleGraph.Core
                 while ((line = reader.ReadLine()) != null)
                 {
                     lineResult = line.Split(' ');
-                    edges.Add(new Edge(nodes.Find((Node n) => n.Number == Convert.ToInt32(lineResult[0])),
-                        nodes.Find((Node n) => n.Number == Convert.ToInt32(lineResult[1])), Color.FromName(lineResult[2]),Convert.ToInt32(lineResult[3])));
+                    edges.Add(new Edge(Convert.ToInt32(lineResult[0]),nodes.Find((Node n) => n.Number == Convert.ToInt32(lineResult[1])),
+                        nodes.Find((Node n) => n.Number == Convert.ToInt32(lineResult[2])), Color.FromName(lineResult[3]),Convert.ToInt32(lineResult[4])));
                 }
             }
             catch (Exception e)
@@ -174,7 +174,7 @@ namespace ScaleGraph.Core
         {
             Node first = SearchNode(firstCoordinate);
             Node second = SearchNode(secondCoordinate);
-            edit.AddEdge(first, second, color, width);
+            edit.AddEdge(currentVisible,first, second, color, width);
         }
        
         public int CurrentVisible
@@ -215,7 +215,7 @@ namespace ScaleGraph.Core
 
         public Bitmap Draw(Rectangle rect, bool drawEdge, Point p1, Point p2)
         {
-            return edit.DrawGraph(rect,1, drawEdge,p1,p2);
+            return edit.DrawGraph(rect,1, drawEdge,p1,p2, currentVisible);
         }
 
         private String ColorToStr(Color color)

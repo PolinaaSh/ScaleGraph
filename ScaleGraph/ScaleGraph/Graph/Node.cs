@@ -9,7 +9,7 @@ namespace ScaleGraph.Graph
 {
     class Node
     {
-         private int levelVisile;
+         private int levelVisible;
         // private List<Edge> edges;
          private Color color;
          private Point coordinate;
@@ -19,7 +19,7 @@ namespace ScaleGraph.Graph
 
         public Node(int levelVisible, Color color, Point coordinate, int radius, int number)
          {
-             this.levelVisile = levelVisible;
+             this.levelVisible = levelVisible;
             // edges = new List<Edge>();
              this.color = color;
              this.coordinate = coordinate;
@@ -31,11 +31,11 @@ namespace ScaleGraph.Graph
         {
             get
             {
-                return this.levelVisile;
+                return this.levelVisible;
             }
             set
             {
-                this.levelVisile = value;
+                this.levelVisible = value;
             }
         }
 

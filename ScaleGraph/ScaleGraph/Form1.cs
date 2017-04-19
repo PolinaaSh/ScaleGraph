@@ -57,7 +57,7 @@ namespace ScaleGraph
                 }
                 else if(edgeCount == 1)
                 {
-                    dataHolder.AddEdge(node1.Location, ((MouseEventArgs)e).Location, dataHolder.CurrentColor,20);
+                    dataHolder.AddEdge(node1.Location, ((MouseEventArgs)e).Location, dataHolder.CurrentColor,20    );
                     graphBox.Image = dataHolder.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0));
                     edgeCount = 2;
                 }
@@ -81,6 +81,22 @@ namespace ScaleGraph
             {
                 graphBox.Image = dataHolder.Draw(ClientRectangle, true, node1.Location, e.Location);
             }
+        }
+
+        private void trackBar_Scroll(object sender, EventArgs e)
+        {
+            double visible = trackBar.Value / 2 + 0.5;
+            dataHolder.CurrentVisible = (int)visible;
+        }
+
+        private void trackBar_ValueChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void GraphPicture_Click(object sender, EventArgs e)
+        {
+
         }
 
     }

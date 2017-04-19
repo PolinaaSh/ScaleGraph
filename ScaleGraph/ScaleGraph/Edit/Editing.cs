@@ -24,32 +24,36 @@ namespace ScaleGraph.Edit
             nodes.Add(new Node(levelVisible, color, coordinate, radius, number));
         }
 
-        public void AddEdge(Node nodeFirst, Node nodeSecond, Color color, int width)
+        public void AddEdge(int levelVisible,Node nodeFirst, Node nodeSecond, Color color, int width)
         {
-            edges.Add(new Edge(nodeFirst, nodeSecond, color, width));
-            //first.AddEdge(new Edge(nodeFirst, nodeSecond , color,width));
-            // second.AddEdge(new Edge(nodeFirst, nodeSecond, color,width));
+            edges.Add(new Edge(levelVisible, nodeFirst, nodeSecond, color, width));
         }
 
        
-        public Bitmap DrawGraph(Rectangle r, int k, bool drawEdge, Point p1, Point p2)
+        public Bitmap DrawGraph(Rectangle r, int k, bool drawEdge, Point p1, Point p2, int currVisible)
         {
             Bitmap bitmap = new Bitmap(r.Width, r.Height);
             using (Graphics g = Graphics.FromImage(bitmap))
             {
                 foreach (Node n in nodes)
                 {
-                    Brush brush = new SolidBrush(n.Color);
-                    int scaleRadius = n.Radius * 2 * k;
-                    g.FillEllipse(brush, n.Coordinate.X - scaleRadius / 2, n.Coordinate.Y - scaleRadius / 2,scaleRadius, scaleRadius);
-                    brush.Dispose();
+                    if (n.LevelVisible <= currVisible)
+                    {
+                        Brush brush = new SolidBrush(n.Color);
+                        int scaleRadius = n.Radius * 2 * k;
+                        g.FillEllipse(brush, n.Coordinate.X - scaleRadius / 2, n.Coordinate.Y - scaleRadius / 2, scaleRadius, scaleRadius);
+                        brush.Dispose();
+                    }
                 }
 
-                foreach(Edge edge in edges)
+                foreach (Edge edge in edges)
                 {
-                    Pen pen = new Pen(edge.Color,edge.Width);
-                    g.DrawLine(pen,edge.NodeFirst.Coordinate, edge.NodeSecond.Coordinate);
-                    pen.Dispose();
+                    if (edge.LevelVisible <= currVisible)
+                    {
+                        Pen pen = new Pen(edge.Color, edge.Width);
+                        g.DrawLine(pen, edge.NodeFirst.Coordinate, edge.NodeSecond.Coordinate);
+                        pen.Dispose();
+                    }
                 }
                 if(drawEdge)
                 {
