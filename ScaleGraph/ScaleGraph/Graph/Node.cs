@@ -13,11 +13,11 @@ namespace ScaleGraph.Graph
         // private List<Edge> edges;
          private Color color;
          private PointF coordinate;
-         private int radius;
+         private float radius;
          private int number;
 
 
-        public Node(int levelVisible, Color color, PointF coordinate, int radius, int number)
+        public Node(int levelVisible, Color color, PointF coordinate, float radius, int number)
          {
              this.levelVisible = levelVisible;
             // edges = new List<Edge>();
@@ -95,7 +95,7 @@ namespace ScaleGraph.Graph
            }
        }
 
-        public int Radius
+        public float Radius
        {
            get
            {

@@ -91,7 +91,8 @@ namespace ScaleGraph
         {
             double visible = (double)trackBar.Value / 2 + 0.5;
             dataHolder.CurrentVisible = (int)visible;
-            currScale = 1 +  trackBar.Value*0.1F;
+                currScale = 0.9F + trackBar.Value * 0.1F;
+
             graphBox.Image = dataHolder.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), currScale);
         }
 

@@ -13,18 +13,21 @@ namespace ScaleGraph.Edit
     {
         List<Node> nodes;
         List<Edge> edges;
+        Dictionary<int, PointF> scalePoints;
+
         public Editing(List<Node> nodes, List<Edge> edges)
         {
             this.nodes = nodes;
             this.edges = edges;
+            scalePoints = new Dictionary<int, PointF>();
         }
 
-        public void AddNode(int levelVisible, Color color, PointF coordinate, int radius, int number)
+        public void AddNode(int levelVisible, Color color, PointF coordinate, float radius, int number)
         {
             nodes.Add(new Node(levelVisible, color, coordinate, radius, number));
         }
 
-        public void AddEdge(int levelVisible,Node nodeFirst, Node nodeSecond, Color color, int width)
+        public void AddEdge(int levelVisible,Node nodeFirst, Node nodeSecond, Color color, float width)
         {
             edges.Add(new Edge(levelVisible, nodeFirst, nodeSecond, color, width));
         }
@@ -32,7 +35,11 @@ namespace ScaleGraph.Edit
        
         public Bitmap DrawGraph(Rectangle r, float k, bool drawEdge, PointF p1, PointF p2, int currVisible)
         {
+            float stepX = r.Width / 2;
+            float stepY = r.Height / 2;
+
             Bitmap bitmap = new Bitmap(r.Width, r.Height);
+            scalePoints.Clear();
             using (Graphics g = Graphics.FromImage(bitmap))
             {
                 foreach (Node n in nodes)
@@ -40,8 +47,20 @@ namespace ScaleGraph.Edit
                     if (n.LevelVisible <= currVisible)
                     {
                         Brush brush = new SolidBrush(n.Color);
-                        float scaleRadius = n.Radius * k;
-                        g.FillEllipse(brush,k*( n.Coordinate.X - scaleRadius),k*( n.Coordinate.Y - scaleRadius), scaleRadius*2, scaleRadius*2);
+                        float scaleRadius = (float) n.Radius * k;
+
+                        float coordinateX = n.Coordinate.X - scaleRadius - stepX;
+                        coordinateX *= k;
+                        coordinateX += stepX;
+
+                        float coordinateY = n.Coordinate.Y - scaleRadius - stepY;
+                        coordinateY *= k;
+                        coordinateY += stepY;
+
+                        g.FillEllipse(brush, coordinateX, coordinateY, scaleRadius * 2, scaleRadius * 2);
+                       
+                        scalePoints.Add(n.Number, new PointF(coordinateX, coordinateY));                           
+                                          
                         brush.Dispose();
                     }
                 }
@@ -50,11 +69,14 @@ namespace ScaleGraph.Edit
                 {
                     if (edge.LevelVisible <= currVisible)
                     {
-                        float scaleRadius = edge.NodeFirst.Radius * k;
-                        Pen pen = new Pen(edge.Color, edge.Width*k);
+                        float scaleRadius = (float)edge.NodeFirst.Radius * k;
 
-                        g.DrawLine(pen, edge.NodeFirst.Coordinate.X * k-scaleRadius , edge.NodeFirst.Coordinate.Y * k-scaleRadius, edge.NodeSecond.Coordinate.X * k - scaleRadius, edge.NodeSecond.Coordinate.Y * k - scaleRadius);
-                       
+                        Pen pen = new Pen(edge.Color, scaleRadius*2);
+                      
+                        PointF firstPoint = scalePoints[edge.NodeFirst.Number];
+                        PointF secondPoint = scalePoints[edge.NodeSecond.Number];
+
+                        g.DrawLine(pen, firstPoint.X + scaleRadius, firstPoint.Y + scaleRadius, secondPoint.X + scaleRadius, secondPoint.Y + scaleRadius);
                         pen.Dispose();
                     }
                 }

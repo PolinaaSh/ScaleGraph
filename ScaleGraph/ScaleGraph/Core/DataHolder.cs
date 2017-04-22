@@ -20,7 +20,7 @@ namespace ScaleGraph.Core
 
         private int currentVisible;
         private Color currentColor;
-        private int currentRadius;
+        private float currentRadius;
 
         public DataHolder()
         {
@@ -31,7 +31,7 @@ namespace ScaleGraph.Core
 
             currentVisible = 1;
             currentColor = Color.Black;
-            currentRadius = 10;
+            currentRadius = 10F;
         }
 
         private void ReadNodes()
@@ -48,7 +48,7 @@ namespace ScaleGraph.Core
             {
                 lineResult = line.Split(' ');
                 nodes.Add(new Node((Convert.ToInt32(lineResult[0])),Color.FromName(lineResult[1]),
-                    new Point(Convert.ToInt32(lineResult[2]), Convert.ToInt32(lineResult[3])), Convert.ToInt32(lineResult[4]), ++maxNodeNumber));
+                    new PointF(Convert.ToInt32(lineResult[2]), Convert.ToInt32(lineResult[3])), Convert.ToInt32(lineResult[4]), ++maxNodeNumber));
             }
             }
             catch(Exception e)
@@ -111,7 +111,7 @@ namespace ScaleGraph.Core
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e.Message);
             }
             finally
             {
@@ -165,12 +165,12 @@ namespace ScaleGraph.Core
             return null;
         }
 
-        public void AddNode(int levelVisible, Color color, PointF coordinate, int radius)
+        public void AddNode(int levelVisible, Color color, PointF coordinate, float radius)
         {
             edit.AddNode(levelVisible, color, coordinate, radius, ++maxNodeNumber);
         }
 
-        public void AddEdge(PointF firstCoordinate, PointF secondCoordinate, Color color, int width)
+        public void AddEdge(PointF firstCoordinate, PointF secondCoordinate, Color color, float width)
         {
             Node first = SearchNode(firstCoordinate);
             Node second = SearchNode(secondCoordinate);
@@ -201,7 +201,7 @@ namespace ScaleGraph.Core
             }
         }
 
-        public int CurrentRadius
+        public float CurrentRadius
         {
             get
             {

@@ -58,9 +58,9 @@
             // 
             // graphBox
             // 
-            this.graphBox.Location = new System.Drawing.Point(2, 67);
+            this.graphBox.Location = new System.Drawing.Point(2, 50);
             this.graphBox.Name = "graphBox";
-            this.graphBox.Size = new System.Drawing.Size(1046, 451);
+            this.graphBox.Size = new System.Drawing.Size(1170, 550);
             this.graphBox.TabIndex = 3;
             this.graphBox.TabStop = false;
             this.graphBox.Click += new System.EventHandler(this.graphBox_Click);
@@ -81,7 +81,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1051, 530);
+            this.ClientSize = new System.Drawing.Size(1185, 607);
             this.Controls.Add(this.trackBar);
             this.Controls.Add(this.graphBox);
             this.Controls.Add(this.AddEdgeButton);
