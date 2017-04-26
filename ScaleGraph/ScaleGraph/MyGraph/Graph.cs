@@ -67,14 +67,18 @@ namespace ScaleGraph.MyGraph
 
         public Node SearchNode(PointF coordinate)
         {
-            float minX = nodes[0].Coordinate.X;
-            float minY = nodes[0].Coordinate.Y;
+            float minX = Math.Abs(coordinate.X - nodes[0].Coordinate.X);
+            float minY = Math.Abs(coordinate.Y - nodes[0].Coordinate.Y);
             Node res = null;
 
             foreach (Node n in nodes)
             {
                 if (Math.Abs(coordinate.X - n.Coordinate.X) < minX && Math.Abs(coordinate.Y - n.Coordinate.Y) < minY)
+                {
+                    minX = Math.Abs(coordinate.X - n.Coordinate.X);
+                    minY = Math.Abs(coordinate.Y - n.Coordinate.Y);
                     res = n;
+                }
             }
             return res;
         }
