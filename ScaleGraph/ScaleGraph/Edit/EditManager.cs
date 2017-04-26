@@ -13,8 +13,6 @@ namespace ScaleGraph.Edit
 {
     class EditManger
     {
-
-        private int maxNodeNumber;
         private int currentVisible;
         private Color currentColor;
         private float currentRadius;
@@ -79,7 +77,6 @@ namespace ScaleGraph.Edit
             List<Node> nodes = data.ReadNodes();
             List<Edge> edges = data.ReadEdges(nodes);
             graph = new Graph(nodes, edges);
-            maxNodeNumber = graph.Nodes.Count;
         }
 
         public void SaveGraph()
@@ -89,7 +86,7 @@ namespace ScaleGraph.Edit
 
         public void AddNode(int levelVisible, Color color, PointF coordinate, float radius)
         {
-           graph.AddNode(levelVisible, color, coordinate, radius, ++maxNodeNumber);
+           graph.AddNode(levelVisible, color, coordinate, radius);
         }
 
         public void AddEdge(PointF firstCoordinate, PointF secondCoordinate, Color color, float width)

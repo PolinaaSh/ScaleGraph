@@ -10,7 +10,6 @@ namespace ScaleGraph.MyGraph
     class Node
     {
          private int levelVisible;
-        // private List<Edge> edges;
          private Color color;
          private PointF coordinate;
          private float radius;
@@ -20,7 +19,6 @@ namespace ScaleGraph.MyGraph
         public Node(int levelVisible, Color color, PointF coordinate, float radius, int number)
          {
              this.levelVisible = levelVisible;
-            // edges = new List<Edge>();
              this.color = color;
              this.coordinate = coordinate;
              this.radius = radius;
@@ -38,26 +36,7 @@ namespace ScaleGraph.MyGraph
                 this.levelVisible = value;
             }
         }
-
-      /* public List<Edge> Edges
-       {
-           get
-           {
-               return this.edges;
-           }
-           set
-           {
-               try
-               {
-                   this.edges = value;
-               }
-               catch (Exception e)
-               {
-                   Console.Write(e.Message);
-               }
-           }
-       }*/
-
+    
        public Color Color
        {
            get
@@ -105,11 +84,6 @@ namespace ScaleGraph.MyGraph
            {
                radius = value;
            }
-       }
-
-       public void AddEdge(Edge edge)
-       {
-          // edges.Add(edge);
        }
     }
 }

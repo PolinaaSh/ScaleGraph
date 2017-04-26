@@ -43,9 +43,9 @@ namespace ScaleGraph.MyGraph
             }
         }
 
-        public void AddNode(int levelVisible, Color color, PointF coordinate, float radius, int number)
+        public void AddNode(int levelVisible, Color color, PointF coordinate, float radius)
         {
-            nodes.Add(new Node(levelVisible, color, coordinate, radius, number));
+            nodes.Add(new Node(levelVisible, color, coordinate, radius, nodes.Count+1));
         }
 
         public void AddEdge(int levelVisible,PointF firstCoordinate, PointF secondCoordinate, Color color, float width)
@@ -65,7 +65,7 @@ namespace ScaleGraph.MyGraph
 
         }
 
-        public Node SearchNode(PointF coordinate)
+        private Node SearchNode(PointF coordinate)
         {
             float minX = Math.Abs(coordinate.X - nodes[0].Coordinate.X);
             float minY = Math.Abs(coordinate.Y - nodes[0].Coordinate.Y);

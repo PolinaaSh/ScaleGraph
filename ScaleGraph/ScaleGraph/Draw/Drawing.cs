@@ -48,7 +48,7 @@ namespace ScaleGraph.Draw
             }
         }
 
-        private void DrawEdges(Graphics g, Rectangle r, float k, bool drawEdge, PointF p1, PointF p2, int currVisible)
+        private void DrawEdges(Graphics g, float k, bool drawEdge, PointF p1, PointF p2, int currVisible)
         {
             foreach (Edge edge in graph.Edges)
             {
@@ -82,7 +82,7 @@ namespace ScaleGraph.Draw
             using (Graphics g = Graphics.FromImage(bitmap))
             {
                 DrawNodes(g, r, k, drawEdge, currVisible);
-                DrawEdges(g,r,k,drawEdge,p1, p2, currVisible);
+                DrawEdges(g,k,drawEdge,p1, p2, currVisible);
                
             }
             return bitmap;
