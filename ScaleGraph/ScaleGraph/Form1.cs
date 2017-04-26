@@ -13,7 +13,7 @@ namespace ScaleGraph
 {
     public partial class Form1 : Form
     {
-        DataHolder dataHolder;
+        Data dataHolder;
 
         bool addNode;
         bool addEdge;
@@ -26,7 +26,7 @@ namespace ScaleGraph
         public Form1()
         {
             InitializeComponent();
-            dataHolder = new DataHolder();
+            dataHolder = new Data();
             graphBox.Image = dataHolder.Draw(ClientRectangle, false, new Point (0,0),new Point (0,0),currScale);
             addNode = false;
             edgeCount = 2;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScaleGraph.Graph
+namespace ScaleGraph.MyGraph
 {
     class Node
     {
