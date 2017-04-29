@@ -27,29 +27,38 @@ namespace ScaleGraph.Draw
             }
         }
 
-        private void DrawNodes(Graphics g, Rectangle r, float k, bool drawEdge, int currVisible)
+        private PointF Scale(Rectangle rect,float scale, Node n )
         {
+            float stepX = rect.Width / 2;
+            float stepY = rect.Height / 2;
 
-            float stepX = r.Width / 2;
-            float stepY = r.Height / 2;
+            float scaleRadius = (float)n.Radius * scale / n.LevelVisible;
+
+            float coordinateX = n.Coordinate.X - scaleRadius - stepX;
+            coordinateX *= scale;
+            coordinateX += stepX;
+
+            float coordinateY = n.Coordinate.Y - scaleRadius - stepY;
+            coordinateY *= scale;
+            coordinateY += stepY;
+
+            return new PointF(coordinateX, coordinateY);
+        }
+
+        private void DrawNodes(Graphics g, Rectangle r, float scale, bool drawEdge, int currVisible)
+        {
             foreach (Node n in graph.Nodes)
             {
                 if (n.LevelVisible <= currVisible)
                 {
                     Brush brush = new SolidBrush(n.Color);
-                    float scaleRadius = (float)n.Radius * k/n.LevelVisible;
+                    float scaleRadius = (float)n.Radius * scale / n.LevelVisible;
 
-                    float coordinateX = n.Coordinate.X - scaleRadius - stepX;
-                    coordinateX *= k;
-                    coordinateX += stepX;
+                    PointF scalepoint = Scale(r, scale, n);
 
-                    float coordinateY = n.Coordinate.Y - scaleRadius - stepY;
-                    coordinateY *= k;
-                    coordinateY += stepY;
+                    g.FillEllipse(brush, scalepoint.X, scalepoint.Y, scaleRadius * 2, scaleRadius * 2);
 
-                    g.FillEllipse(brush, coordinateX, coordinateY, scaleRadius * 2, scaleRadius * 2);
-
-                    scalePoints.Add(n.Number, new PointF(coordinateX, coordinateY));
+                    scalePoints.Add(n.Number, scalepoint);
 
                     brush.Dispose();
                 }
@@ -75,7 +84,8 @@ namespace ScaleGraph.Draw
             }
             if (drawEdge)
             {
-                float scaleRadius = 5F * k / currVisible;
+                Node firstNode = graph.SearchNode(p1);
+                float scaleRadius = firstNode.Radius * k /  firstNode.LevelVisible;
                 Pen pen = new Pen(Color.Black, scaleRadius*2);
                 g.DrawLine(pen, p1, p2);
                 pen.Dispose();

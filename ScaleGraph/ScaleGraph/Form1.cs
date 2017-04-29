@@ -61,7 +61,7 @@ namespace ScaleGraph
                 }
                 else if(edgeCount == 1)
                 {
-                    manager.AddEdge(node1.Location, ((MouseEventArgs)e).Location, manager.CurrentColor, 10);
+                    manager.AddEdge(ClientRectangle, node1.Location, ((MouseEventArgs)e).Location, manager.CurrentColor, 10);
                     graphBox.Image = manager.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), manager.Scale);
                     edgeCount = 2;
                 }

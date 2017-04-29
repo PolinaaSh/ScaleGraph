@@ -42,7 +42,6 @@ namespace ScaleGraph.Core
             catch(Exception e)
             {
                 Console.WriteLine(e.Message);
-                Console.ReadKey();
             }
             finally
             {
@@ -73,7 +72,6 @@ namespace ScaleGraph.Core
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                Console.ReadKey();
             }
             finally
             {

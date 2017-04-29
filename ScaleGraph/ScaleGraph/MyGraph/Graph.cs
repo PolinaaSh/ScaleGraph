@@ -70,11 +70,11 @@ namespace ScaleGraph.MyGraph
 
         }
 
-        private Node SearchNode(PointF coordinate)
+        public Node SearchNode(PointF coordinate)
         {
             float minX = Math.Abs(coordinate.X - nodes[0].Coordinate.X);
             float minY = Math.Abs(coordinate.Y - nodes[0].Coordinate.Y);
-            Node res = null;
+            Node res = nodes[0];
 
             foreach (Node n in nodes)
             {
