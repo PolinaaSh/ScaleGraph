@@ -16,6 +16,7 @@ namespace ScaleGraph.Edit
         private int currentVisible;
         private Color currentColor;
         private float currentRadius;
+        private float scale;
 
         private Graph graph;
 
@@ -30,8 +31,9 @@ namespace ScaleGraph.Edit
 
             drawManager = new Drawing(graph);
             currentVisible = 1;
+            scale = 1;
             currentColor = Color.Black;
-            currentRadius = 10F;
+            currentRadius = 5F;
         }
 
         public int CurrentVisible
@@ -70,6 +72,19 @@ namespace ScaleGraph.Edit
             }
         }
 
+        public float Scale
+        {
+            get
+            {
+                return this.scale;
+
+            }
+            set
+            {
+                this.scale = value;
+            }
+        }
+
 
 
         private void CreateGraph()
@@ -84,9 +99,9 @@ namespace ScaleGraph.Edit
             data.WriteData(graph);
         }
 
-        public void AddNode(int levelVisible, Color color, PointF coordinate, float radius)
+        public void AddNode( Rectangle rect,PointF coordinate)
         {
-           graph.AddNode(levelVisible, color, coordinate, radius);
+           graph.AddNode(currentVisible, currentColor,  CalculateNode(rect,coordinate)/*coordinate*/, currentRadius);
         }
 
         public void AddEdge(PointF firstCoordinate, PointF secondCoordinate, Color color, float width)
@@ -97,7 +112,27 @@ namespace ScaleGraph.Edit
         public Bitmap Draw(Rectangle rect, bool drawEdge, PointF p1, PointF p2, float k)
         {
             return drawManager.DrawGraph(rect, k, drawEdge, p1, p2, currentVisible);
-        }       
+        }
+
+        private PointF CalculateNode(Rectangle rect,PointF coordinate)
+        {
+            float stepX = rect.Width / 2;
+            float stepY = rect.Height / 2;
+
+            float scaleRadius = (float)currentRadius * scale / currentVisible;
+
+            float coordinateX = coordinate.X - stepX;
+            coordinateX /= scale;
+            coordinateX += scaleRadius + stepX;
+
+            float coordinateY = coordinate.Y - stepY;
+            coordinateY /= scale;
+            coordinateY += scaleRadius + stepY;
+
+            return new PointF(coordinateX, coordinateY);
+
+        }
+
        
     }
 }

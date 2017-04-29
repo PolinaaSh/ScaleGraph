@@ -48,6 +48,11 @@ namespace ScaleGraph.MyGraph
             nodes.Add(new Node(levelVisible, color, coordinate, radius, nodes.Count+1));
         }
 
+        public void AddNode(Node node)
+        {
+            nodes.Add(node);
+        }
+
         public void AddEdge(int levelVisible,PointF firstCoordinate, PointF secondCoordinate, Color color, float width)
         {
             Node first = SearchNode(firstCoordinate);

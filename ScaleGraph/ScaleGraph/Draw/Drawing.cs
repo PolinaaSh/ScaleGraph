@@ -19,6 +19,14 @@ namespace ScaleGraph.Draw
             scalePoints = new Dictionary<int, PointF>();
         }
 
+        public Dictionary<int,PointF> ScalePoints
+        {
+            get
+            {
+                return this.scalePoints;
+            }
+        }
+
         private void DrawNodes(Graphics g, Rectangle r, float k, bool drawEdge, int currVisible)
         {
 
@@ -29,7 +37,7 @@ namespace ScaleGraph.Draw
                 if (n.LevelVisible <= currVisible)
                 {
                     Brush brush = new SolidBrush(n.Color);
-                    float scaleRadius = (float)n.Radius * k;
+                    float scaleRadius = (float)n.Radius * k/n.LevelVisible;
 
                     float coordinateX = n.Coordinate.X - scaleRadius - stepX;
                     coordinateX *= k;
@@ -54,7 +62,7 @@ namespace ScaleGraph.Draw
             {
                 if (edge.LevelVisible <= currVisible)
                 {
-                    float scaleRadius = (float)edge.NodeFirst.Radius * k;
+                    float scaleRadius = (float)edge.NodeFirst.Radius * k / edge.LevelVisible ;
 
                     Pen pen = new Pen(edge.Color, scaleRadius * 2);
 
@@ -67,9 +75,10 @@ namespace ScaleGraph.Draw
             }
             if (drawEdge)
             {
-                Pen p = new Pen(Color.Black, 20);
-                g.DrawLine(p, p1, p2);
-                p.Dispose();
+                float scaleRadius = 5F * k / currVisible;
+                Pen pen = new Pen(Color.Black, scaleRadius*2);
+                g.DrawLine(pen, p1, p2);
+                pen.Dispose();
             }
         }
 

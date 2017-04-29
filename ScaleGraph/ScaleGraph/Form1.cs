@@ -20,15 +20,13 @@ namespace ScaleGraph
 
         MouseEventArgs node1;
 
-        float currScale = 1;
-
         public Form1()
         {
             InitializeComponent();
 
             manager = new Edit.EditManger();
 
-            graphBox.Image = manager.Draw(ClientRectangle, false, new Point (0,0),new Point (0,0),currScale);
+            graphBox.Image = manager.Draw(ClientRectangle, false, new Point (0,0),new Point (0,0),manager.Scale);
 
             addNode = false;
             edgeCount = 2;
@@ -50,8 +48,8 @@ namespace ScaleGraph
             if (addNode)
             {
                 MouseEventArgs e1 = (MouseEventArgs)e;
-                manager.AddNode(manager.CurrentVisible, manager.CurrentColor, new PointF(e1.X, e1.Y), manager.CurrentRadius);
-                graphBox.Image = manager.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), currScale);
+                manager.AddNode(ClientRectangle,new PointF(e1.X, e1.Y));
+                graphBox.Image = manager.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), manager.Scale);
                 addNode = false;
             }
             else if(addEdge)
@@ -63,8 +61,8 @@ namespace ScaleGraph
                 }
                 else if(edgeCount == 1)
                 {
-                    manager.AddEdge(node1.Location, ((MouseEventArgs)e).Location, manager.CurrentColor, 20);
-                    graphBox.Image = manager.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), currScale);
+                    manager.AddEdge(node1.Location, ((MouseEventArgs)e).Location, manager.CurrentColor, 10);
+                    graphBox.Image = manager.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), manager.Scale);
                     edgeCount = 2;
                 }
             }
@@ -85,17 +83,16 @@ namespace ScaleGraph
         {
             if(addEdge && edgeCount == 1)
             {
-                graphBox.Image = manager.Draw(ClientRectangle, true, node1.Location, e.Location, currScale);
+                graphBox.Image = manager.Draw(ClientRectangle, true, node1.Location, e.Location, manager.Scale);
             }
         }
 
         private void trackBar_Scroll(object sender, EventArgs e)
         {
-            double visible = (double)trackBar.Value / 2 + 0.5;
-            manager.CurrentVisible = (int)visible;
-                currScale = 0.9F + trackBar.Value * 0.1F;
+                manager.CurrentVisible = (int)((double)trackBar.Value/2 + 0.5);
+                manager.Scale = 0.9F + trackBar.Value * 0.1F;
 
-                graphBox.Image = manager.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), currScale);
+                graphBox.Image = manager.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), manager.Scale);
         }
 
         private void trackBar_ValueChanged(object sender, EventArgs e)
