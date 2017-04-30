@@ -104,9 +104,14 @@ namespace ScaleGraph.Edit
            graph.AddNode(currentVisible, currentColor,  CalcilateRealCoordinate(rect,coordinate)/*coordinate*/, currentRadius);
         }
 
-        public void AddEdge(Rectangle rect, Point firstCoordinate, Point secondCoordinate, Color color, float width)
+        public void AddEdge( Point firstCoordinate, Point secondCoordinate, Color color, float width)
         {
             graph.AddEdge(currentVisible,firstCoordinate, secondCoordinate, color, width, drawManager.ScalePoints);
+        }
+
+        public void RemoveNode(Point nodeCoordinate)
+        {
+            graph.RemoveNode(nodeCoordinate, drawManager.ScalePoints);
         }
 
         public Bitmap Draw(Rectangle rect, bool drawEdge, Point p1, Point p2, float k)
@@ -114,7 +119,7 @@ namespace ScaleGraph.Edit
             return drawManager.DrawGraph(rect, k, drawEdge,  p1, p2, currentVisible);
         }
 
-        private Point CalcilateRealCoordinate(Rectangle rect,Point coordinate)
+        private Point CalcilateRealCoordinate(Rectangle rect, Point coordinate)
         {
             int stepX = rect.Width / 2;
             int stepY = rect.Height / 2;

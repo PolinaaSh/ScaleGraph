@@ -16,6 +16,10 @@ namespace ScaleGraph
         Edit.EditManger manager;
         bool addNode;
         bool addEdge;
+
+        bool removeNode;
+        bool removeEdge;
+
         int edgeCount;
 
         MouseEventArgs node1;
@@ -26,7 +30,7 @@ namespace ScaleGraph
 
             manager = new Edit.EditManger();
 
-            graphBox.Image = manager.Draw(ClientRectangle, false, new Point (0,0),new Point (0,0),manager.Scale);
+            DrawGraph();
 
             addNode = false;
             edgeCount = 2;
@@ -49,7 +53,7 @@ namespace ScaleGraph
             {
                 MouseEventArgs e1 = (MouseEventArgs)e;
                 manager.AddNode(ClientRectangle,new Point(e1.X, e1.Y));
-                graphBox.Image = manager.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), manager.Scale);
+                DrawGraph();
                 addNode = false;
             }
             else if(addEdge)
@@ -61,10 +65,17 @@ namespace ScaleGraph
                 }
                 else if(edgeCount == 1)
                 {
-                    manager.AddEdge(ClientRectangle, node1.Location, ((MouseEventArgs)e).Location, manager.CurrentColor, 10);
-                    graphBox.Image = manager.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), manager.Scale);
+                    manager.AddEdge( node1.Location, ((MouseEventArgs)e).Location, manager.CurrentColor, 10);
+                    DrawGraph();
                     edgeCount = 2;
+                    addEdge = false;
                 }
+            }
+            else if (removeNode)
+            {
+                manager.RemoveNode(new Point(((MouseEventArgs)e).X, ((MouseEventArgs)e).Y));
+                DrawGraph();
+                removeNode = false;
             }
         }
 
@@ -76,6 +87,7 @@ namespace ScaleGraph
         private void AddEdgeButton_Click(object sender, EventArgs e)
         {
             addNode = false;
+            removeNode = false;
             addEdge = true;
         }
 
@@ -91,13 +103,24 @@ namespace ScaleGraph
         {
                 manager.CurrentVisible = (int)((double)trackBar.Value/2 + 0.5);
                 manager.Scale = 0.9F + trackBar.Value * 0.1F;
-
-                graphBox.Image = manager.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), manager.Scale);
+                DrawGraph();                
         }
 
         private void trackBar_ValueChanged(object sender, EventArgs e)
         {
            
+        }
+
+        private void RemoveNodeButton_Click(object sender, EventArgs e)
+        {
+            addNode = false;
+            addEdge = false;
+            removeNode = true;
+        }
+
+        public void DrawGraph()
+        {
+            graphBox.Image = manager.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), manager.Scale);
         }
     }
 }
