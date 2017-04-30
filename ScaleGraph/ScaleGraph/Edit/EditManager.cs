@@ -114,6 +114,11 @@ namespace ScaleGraph.Edit
             graph.RemoveNode(nodeCoordinate, drawManager.ScalePoints);
         }
 
+        public void RemoveEdge(Point clickCoordinate)
+        {
+            graph.RemoveEdge(clickCoordinate);
+        }
+
         public Bitmap Draw(Rectangle rect, bool drawEdge, Point p1, Point p2, float k)
         {
             return drawManager.DrawGraph(rect, k, drawEdge,  p1, p2, currentVisible);

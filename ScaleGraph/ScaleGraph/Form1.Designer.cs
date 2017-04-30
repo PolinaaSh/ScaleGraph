@@ -100,6 +100,7 @@
             this.removeEdgeButton.TabIndex = 6;
             this.removeEdgeButton.Text = "Remove Edge";
             this.removeEdgeButton.UseVisualStyleBackColor = true;
+            this.removeEdgeButton.Click += new System.EventHandler(this.removeEdgeButton_Click);
             // 
             // groupBox1
             // 

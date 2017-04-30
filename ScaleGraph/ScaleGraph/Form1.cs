@@ -77,6 +77,12 @@ namespace ScaleGraph
                 DrawGraph();
                 removeNode = false;
             }
+            else if(removeEdge)
+            {
+                manager.RemoveEdge(new Point(((MouseEventArgs)e).X, ((MouseEventArgs)e).Y));
+                DrawGraph();
+                removeEdge = false;
+            }
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -121,6 +127,11 @@ namespace ScaleGraph
         public void DrawGraph()
         {
             graphBox.Image = manager.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), manager.Scale);
+        }
+
+        private void removeEdgeButton_Click(object sender, EventArgs e)
+        {
+            removeEdge = true;
         }
     }
 }

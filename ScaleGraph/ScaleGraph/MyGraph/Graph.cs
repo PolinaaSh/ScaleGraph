@@ -62,12 +62,25 @@ namespace ScaleGraph.MyGraph
 
         public void RemoveNode(Point coordinate, Dictionary<int, Point> scalePoints)
         {
-            nodes.Remove(SearchNode(coordinate,scalePoints));
+            Node delNode = SearchNode(coordinate, scalePoints);
+            List<Edge> delEdges = new List<Edge>();
+            foreach(Edge edge in edges)
+            {
+                if (edge.NodeFirst == delNode || edge.NodeSecond == delNode)
+                    delEdges.Add(edge);
+                    
+            }
+             nodes.Remove(delNode);
+             edges.RemoveAll((Edge e)=>delEdges.Contains(e));
         }
 
         public void RemoveEdge(Point coordinate)
         {
-
+            Edge e = SearchEdge(coordinate);
+            if(edges != null)
+            {
+                edges.Remove(e);
+            }
         }
 
         public Node SearchNode(Point coordinate, Dictionary<int, Point> scalePoints)
@@ -87,6 +100,38 @@ namespace ScaleGraph.MyGraph
             }
             Node res = Nodes.Find((Node n) => n.Number == number);
             return res;
+        }
+
+        private Edge SearchEdge(Point coordinate)
+        { 
+            if(edges.Count >0)
+            {
+                Node first = edges[0].NodeFirst;
+                Node second = edges[0].NodeSecond;
+                float minFirstX = coordinate.X - first.Coordinate.X;
+                float minFirstY = coordinate.Y - first.Coordinate.Y;
+                float minFirstDistance = (float)Math.Sqrt(Math.Pow(minFirstX,2) + Math.Pow(minFirstY,2));
+
+                float minSecondX = coordinate.X - second.Coordinate.X;
+                float minSecondY = coordinate.Y - second.Coordinate.Y;
+                float minSecondDistance = (float)Math.Sqrt(Math.Pow(minSecondX, 2) + Math.Pow(minSecondY, 2));
+
+                foreach(Edge edge in edges)
+                {
+                    if((float)Math.Sqrt(Math.Pow(coordinate.X - edge.NodeFirst.Coordinate.X, 2) + Math.Pow(coordinate.Y - edge.NodeFirst.Coordinate.Y, 2)) < minFirstDistance &&
+                        (float)Math.Sqrt(Math.Pow(coordinate.X - edge.NodeSecond.Coordinate.X, 2) + Math.Pow(coordinate.Y - edge.NodeSecond.Coordinate.Y, 2)) < minSecondDistance)
+                    {
+                        first = edge.NodeFirst;
+                        second = edge.NodeSecond;
+                        minFirstDistance = (float)Math.Sqrt(Math.Pow(coordinate.X - edge.NodeFirst.Coordinate.X, 2) + Math.Pow(coordinate.Y - edge.NodeFirst.Coordinate.Y, 2));
+                        minSecondDistance = (float)Math.Sqrt(Math.Pow(coordinate.X - edge.NodeSecond.Coordinate.X, 2) + Math.Pow(coordinate.Y - edge.NodeSecond.Coordinate.Y, 2));
+                    }
+                }
+
+                Edge res = edges.Find((Edge e)=> ((e.NodeFirst == first) && (e.NodeSecond == second)));
+                return res;
+            }
+            return null;
         }
     }
 }
