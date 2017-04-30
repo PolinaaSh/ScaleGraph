@@ -48,7 +48,7 @@ namespace ScaleGraph
             if (addNode)
             {
                 MouseEventArgs e1 = (MouseEventArgs)e;
-                manager.AddNode(ClientRectangle,new PointF(e1.X, e1.Y));
+                manager.AddNode(ClientRectangle,new Point(e1.X, e1.Y));
                 graphBox.Image = manager.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), manager.Scale);
                 addNode = false;
             }

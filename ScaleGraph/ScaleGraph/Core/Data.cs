@@ -36,7 +36,7 @@ namespace ScaleGraph.Core
             {
                 lineResult = line.Split(' ');
                 nodes.Add(new Node((Convert.ToInt32(lineResult[0])),Color.FromName(lineResult[1]),
-                    new PointF(Convert.ToInt32(lineResult[2]), Convert.ToInt32(lineResult[3])), Convert.ToInt32(lineResult[4]), Convert.ToInt32(lineResult[5])));
+                    new Point(Convert.ToInt32(lineResult[2]), Convert.ToInt32(lineResult[3])), Convert.ToInt32(lineResult[4]), Convert.ToInt32(lineResult[5])));
             }
             }
             catch(Exception e)

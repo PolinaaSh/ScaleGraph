@@ -43,7 +43,7 @@ namespace ScaleGraph.MyGraph
             }
         }
 
-        public void AddNode(int levelVisible, Color color, PointF coordinate, float radius)
+        public void AddNode(int levelVisible, Color color, Point coordinate, float radius)
         {
             nodes.Add(new Node(levelVisible, color, coordinate, radius, nodes.Count+1));
         }
@@ -53,38 +53,39 @@ namespace ScaleGraph.MyGraph
             nodes.Add(node);
         }
 
-        public void AddEdge(int levelVisible,PointF firstCoordinate, PointF secondCoordinate, Color color, float width)
+        public void AddEdge(int levelVisible, Point firstCoordinate, Point secondCoordinate, Color color, float width, Dictionary<int, Point> scalePoints)
         {
-            Node first = SearchNode(firstCoordinate);
-            Node second = SearchNode(secondCoordinate);
+            Node first = SearchNode(firstCoordinate,scalePoints);
+            Node second = SearchNode(secondCoordinate,scalePoints);
             edges.Add(new Edge(levelVisible, first, second, color, width));
         }
 
-        public void RemoveNode(PointF coordinate)
+        public void RemoveNode(Point coordinate, Dictionary<int, Point> scalePoints)
         {
-            nodes.Remove(SearchNode(coordinate));
+            nodes.Remove(SearchNode(coordinate,scalePoints));
         }
 
-        public void RemoveEdge(PointF coordinate)
+        public void RemoveEdge(Point coordinate)
         {
 
         }
 
-        public Node SearchNode(PointF coordinate)
+        public Node SearchNode(Point coordinate, Dictionary<int, Point> scalePoints)
         {
-            float minX = Math.Abs(coordinate.X - nodes[0].Coordinate.X);
-            float minY = Math.Abs(coordinate.Y - nodes[0].Coordinate.Y);
-            Node res = nodes[0];
+            float minX = coordinate.X - scalePoints.First().Value.X;
+            float minY = coordinate.Y - scalePoints.First().Value.Y;
+            float minDistance = (float)Math.Sqrt(Math.Pow(minX, 2) + Math.Pow(minY, 2));
+            int number = scalePoints.First().Key;
 
-            foreach (Node n in nodes)
+            foreach (KeyValuePair<int, Point> point in scalePoints)
             {
-                if (Math.Abs(coordinate.X - n.Coordinate.X) < minX && Math.Abs(coordinate.Y - n.Coordinate.Y) < minY)
+                if ((float)Math.Sqrt(Math.Pow(coordinate.X - point.Value.X, 2) + Math.Pow(coordinate.Y - point.Value.Y, 2)) < minDistance)
                 {
-                    minX = Math.Abs(coordinate.X - n.Coordinate.X);
-                    minY = Math.Abs(coordinate.Y - n.Coordinate.Y);
-                    res = n;
+                    minDistance = (float)Math.Sqrt(Math.Pow(coordinate.X - point.Value.X, 2) + Math.Pow(coordinate.Y - point.Value.Y, 2));
+                    number = point.Key;
                 }
             }
+            Node res = Nodes.Find((Node n) => n.Number == number);
             return res;
         }
     }

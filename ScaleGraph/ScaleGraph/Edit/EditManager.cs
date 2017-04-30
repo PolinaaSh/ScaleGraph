@@ -99,37 +99,37 @@ namespace ScaleGraph.Edit
             data.WriteData(graph);
         }
 
-        public void AddNode( Rectangle rect,PointF coordinate)
+        public void AddNode( Rectangle rect,Point coordinate)
         {
            graph.AddNode(currentVisible, currentColor,  CalcilateRealCoordinate(rect,coordinate)/*coordinate*/, currentRadius);
         }
 
-        public void AddEdge(Rectangle rect, PointF firstCoordinate, PointF secondCoordinate, Color color, float width)
+        public void AddEdge(Rectangle rect, Point firstCoordinate, Point secondCoordinate, Color color, float width)
         {
-            graph.AddEdge(currentVisible, CalcilateRealCoordinate(rect, firstCoordinate), CalcilateRealCoordinate( rect, secondCoordinate), color, width);
+            graph.AddEdge(currentVisible,firstCoordinate, secondCoordinate, color, width, drawManager.ScalePoints);
         }
 
-        public Bitmap Draw(Rectangle rect, bool drawEdge, PointF p1, PointF p2, float k)
+        public Bitmap Draw(Rectangle rect, bool drawEdge, Point p1, Point p2, float k)
         {
-            return drawManager.DrawGraph(rect, k, drawEdge, CalcilateRealCoordinate(rect, p1), p2, currentVisible);
+            return drawManager.DrawGraph(rect, k, drawEdge,  p1, p2, currentVisible);
         }
 
-        private PointF CalcilateRealCoordinate(Rectangle rect,PointF coordinate)
+        private Point CalcilateRealCoordinate(Rectangle rect,Point coordinate)
         {
-            float stepX = rect.Width / 2;
-            float stepY = rect.Height / 2;
+            int stepX = rect.Width / 2;
+            int stepY = rect.Height / 2;
 
             float scaleRadius = (float)currentRadius * scale / currentVisible;
 
             float coordinateX = coordinate.X - stepX;
             coordinateX /= scale;
-            coordinateX += scaleRadius + stepX;
+            coordinateX += stepX + scaleRadius;
 
             float coordinateY = coordinate.Y - stepY;
             coordinateY /= scale;
-            coordinateY += scaleRadius + stepY;
+            coordinateY += stepY + scaleRadius;
 
-            return new PointF(coordinateX, coordinateY);
+            return new Point((int)coordinateX, (int)coordinateY);
 
         }
 
