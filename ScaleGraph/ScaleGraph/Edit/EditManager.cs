@@ -18,6 +18,8 @@ namespace ScaleGraph.Edit
         private float currentRadius;
         private float scale;
 
+        private int maxNodeNumber;
+
         private Graph graph;
 
         private Data data;
@@ -101,7 +103,7 @@ namespace ScaleGraph.Edit
 
         public void AddNode( Rectangle rect,Point coordinate)
         {
-           graph.AddNode(currentVisible, currentColor,  CalcilateRealCoordinate(rect,coordinate)/*coordinate*/, currentRadius);
+           graph.AddNode(currentVisible, currentColor,  CalcilateRealCoordinate(rect,coordinate), currentRadius);
         }
 
         public void AddEdge( Point firstCoordinate, Point secondCoordinate, Color color, float width)
@@ -116,7 +118,21 @@ namespace ScaleGraph.Edit
 
         public void RemoveEdge(Point clickCoordinate)
         {
-            graph.RemoveEdge(clickCoordinate);
+            Edge res = graph.Edges[0];
+            int minDistance = CalculateDistance(graph.Edges[0].NodeFirst.Number, graph.Edges[0].NodeSecond.Number, clickCoordinate);
+            int distance = minDistance;
+            foreach(Edge e in graph.Edges)
+            {
+                if (e.LevelVisible <= currentVisible)
+                {
+                    if ((distance = CalculateDistance(e.NodeFirst.Number, e.NodeSecond.Number, clickCoordinate)) < minDistance)
+                    {
+                        minDistance = distance;
+                        res = e;
+                    }
+                }
+            }
+            graph.RemoveEdge(res);
         }
 
         public Bitmap Draw(Rectangle rect, bool drawEdge, Point p1, Point p2, float k)
@@ -143,6 +159,18 @@ namespace ScaleGraph.Edit
 
         }
 
-       
+        
+        private int CalculateDistance(int firstNodeNum, int secondNodeNum, Point clickPoint)
+        {
+            Point first = drawManager.ScalePoints[firstNodeNum];
+            Point second = drawManager.ScalePoints[secondNodeNum];
+            int A = second.Y - first.Y;
+            int B = first.X - second.X;
+            int C = first.Y * second.X - first.X * second.Y;
+
+            int distance = Math.Abs(A * clickPoint.X + B * clickPoint.Y + C) / (int)Math.Sqrt(A*A + B*B );
+            return distance;
+        } 
+      
     }
 }

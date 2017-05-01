@@ -44,6 +44,8 @@ namespace ScaleGraph
         private void AddNodeButton_Click(object sender, EventArgs e)
         {
             addEdge = false;
+            removeNode = false;
+            removeEdge = false;
             addNode = true;
         }
 
@@ -94,6 +96,7 @@ namespace ScaleGraph
         {
             addNode = false;
             removeNode = false;
+            removeEdge = false;
             addEdge = true;
         }
 
@@ -121,6 +124,7 @@ namespace ScaleGraph
         {
             addNode = false;
             addEdge = false;
+            removeEdge = false;
             removeNode = true;
         }
 
@@ -132,6 +136,9 @@ namespace ScaleGraph
         private void removeEdgeButton_Click(object sender, EventArgs e)
         {
             removeEdge = true;
+            addNode = false;
+            addEdge = false;
+            removeNode = false;
         }
     }
 }

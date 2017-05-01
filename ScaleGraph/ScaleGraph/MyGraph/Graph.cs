@@ -45,7 +45,8 @@ namespace ScaleGraph.MyGraph
 
         public void AddNode(int levelVisible, Color color, Point coordinate, float radius)
         {
-            nodes.Add(new Node(levelVisible, color, coordinate, radius, nodes.Count+1));
+            int number = nodes[nodes.Count - 1].Number;
+            nodes.Add(new Node(levelVisible, color, coordinate, radius, number + 1));
         }
 
         public void AddNode(Node node)
@@ -74,13 +75,9 @@ namespace ScaleGraph.MyGraph
              edges.RemoveAll((Edge e)=>delEdges.Contains(e));
         }
 
-        public void RemoveEdge(Point coordinate)
+        public void RemoveEdge(Edge edge)
         {
-            Edge e = SearchEdge(coordinate);
-            if(edges != null)
-            {
-                edges.Remove(e);
-            }
+            edges.Remove(edge);
         }
 
         public Node SearchNode(Point coordinate, Dictionary<int, Point> scalePoints)
@@ -106,7 +103,7 @@ namespace ScaleGraph.MyGraph
         { 
             if(edges.Count >0)
             {
-                Node first = edges[0].NodeFirst;
+                /*Node first = edges[0].NodeFirst;
                 Node second = edges[0].NodeSecond;
                 float minFirstX = coordinate.X - first.Coordinate.X;
                 float minFirstY = coordinate.Y - first.Coordinate.Y;
@@ -129,7 +126,9 @@ namespace ScaleGraph.MyGraph
                 }
 
                 Edge res = edges.Find((Edge e)=> ((e.NodeFirst == first) && (e.NodeSecond == second)));
-                return res;
+                return res;*/
+
+
             }
             return null;
         }
