@@ -121,7 +121,7 @@ namespace ScaleGraph.Core
                 writer = new StreamWriter(fs);
                 foreach (Edge edge in edges)
                 {             
-                    String edgeInfo = edge.LevelVisible.ToString()+' ' + edge.NodeFirst.Name + ' ' +edge.NodeSecond.Name+ ' ' + ColorToStr(edge.Color) + ' ' + edge.Width.ToString();
+                    String edgeInfo = edge.LevelVisible.ToString()+' ' + edge.NodeFirst.Name + ' ' +edge.NodeSecond.Name+ ' ' + ColorToStr(edge.Color) + ' '+edge.Weight.ToString() + ' ' + edge.Width.ToString();
                     writer.WriteLine(edgeInfo);
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using ScaleGraph.Core;
+using ScaleGraph.Edit;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,7 @@ using System.Windows.Forms;
 
 namespace ScaleGraph
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         Edit.EditManger manager;
         bool addNode;
@@ -24,7 +25,7 @@ namespace ScaleGraph
 
         MouseEventArgs node1;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 
@@ -54,7 +55,12 @@ namespace ScaleGraph
             if (addNode)
             {
                 MouseEventArgs e1 = (MouseEventArgs)e;
-                manager.AddNode(ClientRectangle,new Point(e1.X, e1.Y), "11");
+                AddNodeForm addForm = new AddNodeForm();
+                addForm.Location = new Point(SystemInformation.PrimaryMonitorSize.Width / 2 - this.Width / 2, SystemInformation.PrimaryMonitorSize.Height / 2 - this.Height / 2);
+                addForm.ShowDialog(this);
+                if (FormDialog.nodeName != String.Empty)
+                    manager.AddNode(ClientRectangle,new Point(e1.X, e1.Y), FormDialog.nodeName);
+                FormDialog.nodeName = String.Empty;
                 DrawGraph();
                 addNode = false;
             }

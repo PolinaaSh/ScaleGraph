@@ -1,6 +1,6 @@
 ﻿namespace ScaleGraph
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Требуется переменная конструктора.
