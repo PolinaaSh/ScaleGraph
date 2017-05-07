@@ -36,7 +36,7 @@ namespace ScaleGraph.Core
             {
                 lineResult = line.Split(' ');
                 nodes.Add(new Node((Convert.ToInt32(lineResult[0])),Color.FromName(lineResult[1]),
-                    new Point(Convert.ToInt32(lineResult[2]), Convert.ToInt32(lineResult[3])), Convert.ToInt32(lineResult[4]), Convert.ToInt32(lineResult[5])));
+                    new Point(Convert.ToInt32(lineResult[2]), Convert.ToInt32(lineResult[3])), Convert.ToInt32(lineResult[4]), lineResult[5]));
             }
             }
             catch(Exception e)
@@ -65,8 +65,8 @@ namespace ScaleGraph.Core
                 while ((line = reader.ReadLine()) != null)
                 {
                     lineResult = line.Split(' ');
-                    edges.Add(new Edge(Convert.ToInt32(lineResult[0]), nodes.Find((Node n) => n.Number == Convert.ToInt32(lineResult[1])),
-                        nodes.Find((Node n) => n.Number == Convert.ToInt32(lineResult[2])), Color.FromName(lineResult[3]), Convert.ToInt32(lineResult[4])));
+                    edges.Add(new Edge(Convert.ToInt32(lineResult[0]), nodes.Find((Node n) => n.Name == lineResult[1]),
+                        nodes.Find((Node n) => n.Name == lineResult[2]), Color.FromName(lineResult[3]), Convert.ToInt32(lineResult[4])));
                 }
             }
             catch (Exception e)
@@ -93,7 +93,7 @@ namespace ScaleGraph.Core
                 foreach (Node n in nodes)
                 {
                     string line = n.LevelVisible.ToString() + ' ' + ColorToStr(n.Color) + ' ' + n.Coordinate.X.ToString() + ' '
-                        + n.Coordinate.Y.ToString() + ' ' + n.Radius.ToString() + ' ' + n.Number.ToString();
+                        + n.Coordinate.Y.ToString() + ' ' + n.Radius.ToString() + ' ' + n.Name.ToString();
 
                     writer.WriteLine(line);
                 }
@@ -101,7 +101,7 @@ namespace ScaleGraph.Core
             }
             catch (Exception e)
             {
-                //Не оставлять пустым!!!!!!!!!!!
+                Console.Write(e.Message);
             }
             finally
             {
@@ -121,7 +121,7 @@ namespace ScaleGraph.Core
                 writer = new StreamWriter(fs);
                 foreach (Edge edge in edges)
                 {             
-                    String edgeInfo = edge.LevelVisible.ToString()+' ' + edge.NodeFirst.Number.ToString() + ' ' +edge.NodeSecond.Number.ToString() + ' ' + ColorToStr(edge.Color) + ' ' + edge.Width.ToString();
+                    String edgeInfo = edge.LevelVisible.ToString()+' ' + edge.NodeFirst.Name + ' ' +edge.NodeSecond.Name+ ' ' + ColorToStr(edge.Color) + ' ' + edge.Width.ToString();
                     writer.WriteLine(edgeInfo);
                 }
             }

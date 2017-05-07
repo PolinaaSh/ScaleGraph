@@ -34,7 +34,7 @@ namespace ScaleGraph.Edit
             drawManager = new Drawing(graph);
             currentVisible = 1;
             scale = 1;
-            currentColor = Color.Black;
+            currentColor = Color.Gray;
             currentRadius = 5F;
         }
 
@@ -101,9 +101,9 @@ namespace ScaleGraph.Edit
             data.WriteData(graph);
         }
 
-        public void AddNode( Rectangle rect,Point coordinate)
+        public void AddNode( Rectangle rect,Point coordinate, string name)
         {
-           graph.AddNode(currentVisible, currentColor,  CalcilateRealCoordinate(rect,coordinate), currentRadius);
+           graph.AddNode(currentVisible, currentColor,  CalcilateRealCoordinate(rect,coordinate), currentRadius, name);
         }
 
         public void AddEdge( Point firstCoordinate, Point secondCoordinate, Color color, float width)
@@ -119,13 +119,13 @@ namespace ScaleGraph.Edit
         public void RemoveEdge(Point clickCoordinate)
         {
             Edge res = graph.Edges[0];
-            int minDistance = CalculateDistance(graph.Edges[0].NodeFirst.Number, graph.Edges[0].NodeSecond.Number, clickCoordinate);
+            int minDistance = CalculateDistance(graph.Edges[0].NodeFirst.Name, graph.Edges[0].NodeSecond.Name, clickCoordinate);
             int distance = minDistance;
             foreach(Edge e in graph.Edges)
             {
                 if (e.LevelVisible <= currentVisible)
                 {
-                    if ((distance = CalculateDistance(e.NodeFirst.Number, e.NodeSecond.Number, clickCoordinate)) < minDistance)
+                    if ((distance = CalculateDistance(e.NodeFirst.Name, e.NodeSecond.Name, clickCoordinate)) < minDistance)
                     {
                         minDistance = distance;
                         res = e;
@@ -160,10 +160,10 @@ namespace ScaleGraph.Edit
         }
 
         
-        private int CalculateDistance(int firstNodeNum, int secondNodeNum, Point clickPoint)
+        private int CalculateDistance(string firstNodeName, string secondNodeName, Point clickPoint)
         {
-            Point first = drawManager.ScalePoints[firstNodeNum];
-            Point second = drawManager.ScalePoints[secondNodeNum];
+            Point first = drawManager.ScalePoints[firstNodeName];
+            Point second = drawManager.ScalePoints[secondNodeName];
             int A = second.Y - first.Y;
             int B = first.X - second.X;
             int C = first.Y * second.X - first.X * second.Y;

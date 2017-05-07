@@ -11,15 +11,15 @@ namespace ScaleGraph.Draw
     class Drawing
     {
         private Graph graph;
-        private Dictionary<int, Point> scalePoints;
+        private Dictionary<string, Point> scalePoints;
 
         public Drawing(Graph graph)
         {
             this.graph = graph;
-            scalePoints = new Dictionary<int, Point>();
+            scalePoints = new Dictionary<string, Point>();
         }
 
-        public Dictionary<int,Point> ScalePoints
+        public Dictionary<string,Point> ScalePoints
         {
             get
             {
@@ -50,17 +50,17 @@ namespace ScaleGraph.Draw
             float minX = coordinate.X - scalePoints.First().Value.X;
             float minY = coordinate.Y - scalePoints.First().Value.Y;
             float minDistance = (float)Math.Sqrt(Math.Pow(minX, 2) + Math.Pow(minY, 2));
-            int number = scalePoints.First().Key;
+           string name = scalePoints.First().Key;
            
-            foreach(KeyValuePair<int, Point> point in scalePoints)
+            foreach(KeyValuePair<string, Point> point in scalePoints)
             {
                 if ((float)Math.Sqrt(Math.Pow(coordinate.X - point.Value.X, 2) + Math.Pow(coordinate.Y - point.Value.Y, 2)) < minDistance)
                 {
                     minDistance = (float)Math.Sqrt(Math.Pow(coordinate.X - point.Value.X, 2) + Math.Pow(coordinate.Y - point.Value.Y, 2));
-                    number = point.Key;
+                    name = point.Key;
                 }
             }
-            Node res = graph.Nodes.Find((Node n)=> n.Number == number);
+            Node res = graph.Nodes.Find((Node n)=> n.Name == name);
             return res;
         }
 
@@ -77,7 +77,11 @@ namespace ScaleGraph.Draw
 
                     g.FillEllipse(brush, scalepoint.X, scalepoint.Y, scaleRadius * 2, scaleRadius * 2);
 
-                    scalePoints.Add(n.Number, scalepoint);
+                    Font font = new Font("Arial",10);
+
+                    g.DrawString(n.Name,font, new SolidBrush(Color.Black),scalepoint.X-15, scalepoint.Y-15);
+
+                    scalePoints.Add(n.Name, scalepoint);
 
                     brush.Dispose();
                 }
@@ -91,13 +95,15 @@ namespace ScaleGraph.Draw
                 if (edge.LevelVisible <= currVisible)
                 {
                     float scaleRadius = (float)edge.NodeFirst.Radius * k / edge.LevelVisible ;
+                    float firstRadius = (float)edge.NodeFirst.Radius * k / edge.NodeFirst.LevelVisible;
+                    float secondRadius = (float)edge.NodeSecond.Radius * k / edge.NodeSecond.LevelVisible;
 
-                    Pen pen = new Pen(edge.Color, scaleRadius * 2);
+                    Pen pen = new Pen(edge.Color, scaleRadius);
 
-                    Point firstPoint = scalePoints[edge.NodeFirst.Number];
-                    Point secondPoint = scalePoints[edge.NodeSecond.Number];
+                    Point firstPoint = scalePoints[edge.NodeFirst.Name];
+                    Point secondPoint = scalePoints[edge.NodeSecond.Name];
 
-                    g.DrawLine(pen, firstPoint.X + scaleRadius, firstPoint.Y + scaleRadius, secondPoint.X + scaleRadius, secondPoint.Y + scaleRadius);
+                    g.DrawLine(pen, firstPoint.X + firstRadius, firstPoint.Y + firstRadius, secondPoint.X + secondRadius, secondPoint.Y + secondRadius);
                     pen.Dispose();
                 }
             }
@@ -105,7 +111,7 @@ namespace ScaleGraph.Draw
             {
                 Node firstNode = SearchScaleNode(p1);
                 float scaleRadius = firstNode.Radius * k /  firstNode.LevelVisible;
-                Pen pen = new Pen(Color.Black, scaleRadius*2);
+                Pen pen = new Pen(Color.Gray, scaleRadius*2);
                 g.DrawLine(pen, p1, p2);
                 pen.Dispose();
             }
@@ -119,6 +125,7 @@ namespace ScaleGraph.Draw
             scalePoints.Clear();
             using (Graphics g = Graphics.FromImage(bitmap))
             {
+                g.FillRectangle(new SolidBrush(Color.LightGreen),r);
                 DrawNodes(g, r, k, drawEdge, currVisible);
                 DrawEdges(g,k,drawEdge,p1, p2, currVisible);
                

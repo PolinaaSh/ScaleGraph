@@ -13,16 +13,16 @@ namespace ScaleGraph.MyGraph
          private Color color;
          private PointF coordinate;
          private float radius;
-         private int number;
+         private string name;
 
 
-        public Node(int levelVisible, Color color, PointF coordinate, float radius, int number)
+        public Node(int levelVisible, Color color, PointF coordinate, float radius, string name)
          {
              this.levelVisible = levelVisible;
              this.color = color;
              this.coordinate = coordinate;
              this.radius = radius;
-             this.number = number;
+             this.name = name;
          }
 
        public int LevelVisible
@@ -61,16 +61,16 @@ namespace ScaleGraph.MyGraph
            }
        }
 
-       public int Number
+       public string Name
        {
            get
            {
-               return number;
+               return name;
            }
 
            set
            {
-               number = value;
+               name = value;
            }
        }
 

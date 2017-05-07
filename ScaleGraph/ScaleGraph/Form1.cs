@@ -54,7 +54,7 @@ namespace ScaleGraph
             if (addNode)
             {
                 MouseEventArgs e1 = (MouseEventArgs)e;
-                manager.AddNode(ClientRectangle,new Point(e1.X, e1.Y));
+                manager.AddNode(ClientRectangle,new Point(e1.X, e1.Y), "11");
                 DrawGraph();
                 addNode = false;
             }
