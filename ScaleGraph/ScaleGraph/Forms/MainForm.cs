@@ -1,5 +1,6 @@
 ﻿using ScaleGraph.Core;
 using ScaleGraph.Edit;
+using ScaleGraph.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -56,7 +57,6 @@ namespace ScaleGraph
             {
                 MouseEventArgs e1 = (MouseEventArgs)e;
                 AddNodeForm addForm = new AddNodeForm();
-                addForm.Location = new Point(SystemInformation.PrimaryMonitorSize.Width / 2 - this.Width / 2, SystemInformation.PrimaryMonitorSize.Height / 2 - this.Height / 2);
                 addForm.ShowDialog(this);
                 if (FormDialog.nodeName != String.Empty)
                     manager.AddNode(ClientRectangle,new Point(e1.X, e1.Y), FormDialog.nodeName);
@@ -73,7 +73,11 @@ namespace ScaleGraph
                 }
                 else if(edgeCount == 1)
                 {
-                    manager.AddEdge( node1.Location, ((MouseEventArgs)e).Location, manager.CurrentColor, 10);
+                    AddEdgeForm addForm = new AddEdgeForm();
+                    addForm.ShowDialog(this);
+                    if (FormDialog.edgeWeight>0)
+                        manager.AddEdge(node1.Location, ((MouseEventArgs)e).Location,  FormDialog.edgeWeight,10);
+                    FormDialog.edgeWeight = -1;
                     DrawGraph();
                     edgeCount = 2;
                     addEdge = false;
@@ -110,7 +114,7 @@ namespace ScaleGraph
         {
             if(addEdge && edgeCount == 1)
             {
-                graphBox.Image = manager.Draw(ClientRectangle, true, node1.Location, e.Location, manager.Scale);
+                graphBox.Image = manager.Draw(ClientRectangle, true, node1.Location, e.Location);
             }
         }
 
@@ -136,7 +140,7 @@ namespace ScaleGraph
 
         public void DrawGraph()
         {
-            graphBox.Image = manager.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0), manager.Scale);
+            graphBox.Image = manager.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0));
         }
 
         private void removeEdgeButton_Click(object sender, EventArgs e)

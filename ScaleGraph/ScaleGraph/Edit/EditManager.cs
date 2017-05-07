@@ -18,7 +18,6 @@ namespace ScaleGraph.Edit
         private float currentRadius;
         private float scale;
 
-        private int maxNodeNumber;
 
         private Graph graph;
 
@@ -106,9 +105,9 @@ namespace ScaleGraph.Edit
            graph.AddNode(currentVisible, currentColor,  CalcilateRealCoordinate(rect,coordinate), currentRadius, name);
         }
 
-        public void AddEdge( Point firstCoordinate, Point secondCoordinate, Color color, float width)
+        public void AddEdge( Point firstCoordinate, Point secondCoordinate, int weight, float width)
         {
-            graph.AddEdge(currentVisible,firstCoordinate, secondCoordinate, color, width, drawManager.ScalePoints);
+            graph.AddEdge(currentVisible,firstCoordinate, secondCoordinate, currentColor, weight, width, drawManager.ScalePoints);
         }
 
         public void RemoveNode(Point nodeCoordinate)
@@ -135,9 +134,9 @@ namespace ScaleGraph.Edit
             graph.RemoveEdge(res);
         }
 
-        public Bitmap Draw(Rectangle rect, bool drawEdge, Point p1, Point p2, float k)
+        public Bitmap Draw(Rectangle rect, bool drawEdge, Point p1, Point p2)
         {
-            return drawManager.DrawGraph(rect, k, drawEdge,  p1, p2, currentVisible);
+            return drawManager.DrawGraph(rect, scale, drawEdge,  p1, p2, currentVisible);
         }
 
         private Point CalcilateRealCoordinate(Rectangle rect, Point coordinate)
@@ -158,7 +157,6 @@ namespace ScaleGraph.Edit
             return new Point((int)coordinateX, (int)coordinateY);
 
         }
-
         
         private int CalculateDistance(string firstNodeName, string secondNodeName, Point clickPoint)
         {

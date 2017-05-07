@@ -53,11 +53,11 @@ namespace ScaleGraph.MyGraph
             nodes.Add(node);
         }
 
-        public void AddEdge(int levelVisible, Point firstCoordinate, Point secondCoordinate, Color color, float width, Dictionary<string, Point> scalePoints)
+        public void AddEdge(int levelVisible, Point firstCoordinate, Point secondCoordinate, Color color, int weight, float width, Dictionary<string, Point> scalePoints)
         {
             Node first = SearchNode(firstCoordinate,scalePoints);
             Node second = SearchNode(secondCoordinate,scalePoints);
-            edges.Add(new Edge(levelVisible, first, second, color, 10 ,width));
+            edges.Add(new Edge(levelVisible, first, second, color, weight ,width));
         }
 
         public void RemoveNode(Point coordinate, Dictionary<string, Point> scalePoints)

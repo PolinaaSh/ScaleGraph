@@ -51,20 +51,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddNodeForm.cs">
+    <Compile Include="Forms\AddEdgeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddNodeForm.Designer.cs">
+    <Compile Include="Forms\AddEdgeForm.Designer.cs">
+      <DependentUpon>AddEdgeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddNodeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddNodeForm.Designer.cs">
       <DependentUpon>AddNodeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\Data.cs" />
     <Compile Include="Draw\Drawing.cs" />
     <Compile Include="Edit\EditManager.cs" />
-    <Compile Include="Edit\FormDialog.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Forms\FormDialog.cs" />
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyGraph\Edge.cs" />
@@ -72,10 +78,13 @@
     <Compile Include="MyGraph\Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AddNodeForm.resx">
+    <EmbeddedResource Include="Forms\AddEdgeForm.resx">
+      <DependentUpon>AddEdgeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddNodeForm.resx">
       <DependentUpon>AddNodeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
