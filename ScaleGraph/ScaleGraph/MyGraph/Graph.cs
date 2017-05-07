@@ -57,7 +57,7 @@ namespace ScaleGraph.MyGraph
         {
             Node first = SearchNode(firstCoordinate,scalePoints);
             Node second = SearchNode(secondCoordinate,scalePoints);
-            edges.Add(new Edge(levelVisible, first, second, color, width));
+            edges.Add(new Edge(levelVisible, first, second, color, 10 ,width));
         }
 
         public void RemoveNode(Point coordinate, Dictionary<string, Point> scalePoints)

@@ -12,15 +12,17 @@ namespace ScaleGraph.MyGraph
         private Node nodeFirst, nodeSecond;//номера вершин, которые соединяет
         private Color color;
         private float width;
+        private int weight;
         private int levelVisible;
 
-        public Edge(int levelVisible, Node nodeFirst, Node nodeSecond, Color color, float width)
+        public Edge(int levelVisible, Node nodeFirst, Node nodeSecond, Color color, int weight, float width)
         {
             this.levelVisible = levelVisible;
             this.nodeFirst = nodeFirst;
             this.nodeSecond = nodeSecond;
             this.color = color;
             this.width = width;
+            this.weight = weight;
         }
 
         public Node NodeFirst
@@ -76,6 +78,18 @@ namespace ScaleGraph.MyGraph
             set
             {
                 this.levelVisible = value;
+            }
+        }
+
+        public int Weight
+        {
+            get
+            {
+                return this.weight;
+            }
+            set
+            {
+                this.weight = value;
             }
         }
 

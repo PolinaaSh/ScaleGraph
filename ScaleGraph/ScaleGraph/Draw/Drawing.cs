@@ -105,6 +105,11 @@ namespace ScaleGraph.Draw
 
                     g.DrawLine(pen, firstPoint.X + firstRadius, firstPoint.Y + firstRadius, secondPoint.X + secondRadius, secondPoint.Y + secondRadius);
                     pen.Dispose();
+
+                    Point weightPnt = new Point((firstPoint.X + secondPoint.X) / 2-5, (firstPoint.Y + secondPoint.Y) / 2-5);
+                    Font font = new Font("Arial", 14);
+                    g.DrawString(edge.Weight.ToString(), font, new SolidBrush(Color.Black), weightPnt);
+
                 }
             }
             if (drawEdge)

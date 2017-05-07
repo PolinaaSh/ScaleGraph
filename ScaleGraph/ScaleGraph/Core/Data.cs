@@ -66,7 +66,7 @@ namespace ScaleGraph.Core
                 {
                     lineResult = line.Split(' ');
                     edges.Add(new Edge(Convert.ToInt32(lineResult[0]), nodes.Find((Node n) => n.Name == lineResult[1]),
-                        nodes.Find((Node n) => n.Name == lineResult[2]), Color.FromName(lineResult[3]), Convert.ToInt32(lineResult[4])));
+                        nodes.Find((Node n) => n.Name == lineResult[2]), Color.FromName(lineResult[3]), Convert.ToInt32(lineResult[4]), Convert.ToInt32(lineResult[5])));
                 }
             }
             catch (Exception e)
