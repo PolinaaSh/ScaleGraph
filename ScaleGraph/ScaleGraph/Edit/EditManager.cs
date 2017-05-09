@@ -169,6 +169,93 @@ namespace ScaleGraph.Edit
             int distance = Math.Abs(A * clickPoint.X + B * clickPoint.Y + C) / (int)Math.Sqrt(A*A + B*B );
             return distance;
         } 
+
+        public List<Node> Search(string from, string to)
+        {
+            Dictionary<Node, int> minDistance = new Dictionary<Node, int>();
+            List<Node> firstRes = Deikstra(from, minDistance);
+            int numb = 0;
+            foreach(KeyValuePair<Node, int> pair in minDistance)
+            {
+                if (pair.Key.Name != to)
+                    numb++;
+                else
+                {
+                    break;
+                }
+            }
+
+            List<Node> res = firstRes.Take<Node>(numb).ToList<Node>();
+
+            res.Add(graph.Nodes.Find((Node n)=> n.Name == to));
+
+            return res;
+
+        }
+
+        public List<Node> Deikstra(String name, Dictionary<Node, int> minDistance)
+        {
+            List<Node> path = new List<Node>();
+           // path.Add(graph.Nodes.Find((Node n)=> n.Name == name));
+
+            minDistance.Add((graph.Nodes.Find((Node n)=> n.Name == name)),0);
+
+            List<Node> visitedNodes = new List<Node>();
+
+            Node currentNode = graph.Nodes.Find((Node n) => n.Name == name);
+
+            while (graph.Nodes.Count != visitedNodes.Count)
+            {
+                List<Edge> nearEdges = graph.Edges.FindAll((Edge e) => (e.NodeFirst == currentNode || e.NodeSecond == currentNode));
+     
+                foreach (Edge edge in nearEdges)
+                {
+                    if(edge.NodeFirst == currentNode)
+                    {
+                        if (!minDistance.ContainsKey(edge.NodeSecond) && !visitedNodes.Contains(edge.NodeSecond))
+                        {
+                            minDistance.Add(edge.NodeSecond, edge.Weight + minDistance[currentNode]);
+                           // path.Add(currentNode);
+                        }
+                        else
+                            if (edge.Weight + minDistance[currentNode] < minDistance[edge.NodeSecond] && !visitedNodes.Contains(edge.NodeSecond))
+                            {
+                                minDistance[edge.NodeSecond] = edge.Weight + minDistance[currentNode];
+                            }
+
+                    }
+                    else
+                    {
+                        if (!minDistance.ContainsKey(edge.NodeFirst) && !visitedNodes.Contains(edge.NodeFirst))
+                        {
+                            minDistance.Add(edge.NodeFirst, edge.Weight + minDistance[currentNode]);
+                           // path.Add(currentNode);
+                        }
+                        else
+                            if (edge.Weight + minDistance[currentNode] < minDistance[edge.NodeFirst] && !visitedNodes.Contains(edge.NodeFirst))
+                            {
+                                minDistance[edge.NodeFirst] = edge.Weight + minDistance[currentNode];
+                            }
+                    }
+                    path.Add(currentNode);
+                }
+
+                visitedNodes.Add(currentNode);
+
+                var myList = minDistance.ToList();
+
+                myList.Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
+                foreach( KeyValuePair<Node, int> p in myList)
+                {
+                    if(!visitedNodes.Contains( p.Key))
+                    {
+                        currentNode = p.Key;
+                        break;
+                    }
+                }                       
+            }
+            return path;
+        }
       
     }
 }

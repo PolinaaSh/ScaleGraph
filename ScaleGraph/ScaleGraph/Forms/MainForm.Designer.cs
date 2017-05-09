@@ -35,6 +35,7 @@
             this.RemoveNodeButton = new System.Windows.Forms.Button();
             this.removeEdgeButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.searchPathButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.graphBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -104,18 +105,29 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.searchPathButton);
             this.groupBox1.Controls.Add(this.removeEdgeButton);
             this.groupBox1.Controls.Add(this.AddNodeButton);
             this.groupBox1.Controls.Add(this.RemoveNodeButton);
             this.groupBox1.Controls.Add(this.AddEdgeButton);
             this.groupBox1.Location = new System.Drawing.Point(2, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(127, 187);
+            this.groupBox1.Size = new System.Drawing.Size(127, 228);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Edit";
             // 
-            // Form1
+            // searchPathButton
+            // 
+            this.searchPathButton.Location = new System.Drawing.Point(10, 188);
+            this.searchPathButton.Name = "searchPathButton";
+            this.searchPathButton.Size = new System.Drawing.Size(88, 23);
+            this.searchPathButton.TabIndex = 7;
+            this.searchPathButton.Text = "Search";
+            this.searchPathButton.UseVisualStyleBackColor = true;
+            this.searchPathButton.Click += new System.EventHandler(this.searchPathButton_Click);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -123,7 +135,7 @@
             this.Controls.Add(this.trackBar);
             this.Controls.Add(this.graphBox);
             this.Controls.Add(this.groupBox1);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Form1";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -144,6 +156,7 @@
         private System.Windows.Forms.Button RemoveNodeButton;
         private System.Windows.Forms.Button removeEdgeButton;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button searchPathButton;
     }
 }
 

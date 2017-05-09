@@ -137,5 +137,20 @@ namespace ScaleGraph.Draw
             }
             return bitmap;
         }
+
+        public Bitmap DrawPath(Rectangle r, float k, bool drawEdge, Point p1, Point p2, int currVisible, List<Node> path)
+        {
+            Bitmap bitmap = new Bitmap(r.Width, r.Height);
+            scalePoints.Clear();
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                g.FillRectangle(new SolidBrush(Color.LightGreen), r);
+                DrawNodes(g, r, k, drawEdge, currVisible);
+                DrawEdges(g, k, drawEdge, p1, p2, currVisible);
+
+            }
+
+            return bitmap;
+        }
     }
 }

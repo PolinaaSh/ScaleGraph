@@ -1,6 +1,7 @@
 ﻿using ScaleGraph.Core;
 using ScaleGraph.Edit;
 using ScaleGraph.Forms;
+using ScaleGraph.MyGraph;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -149,6 +150,13 @@ namespace ScaleGraph
             addNode = false;
             addEdge = false;
             removeNode = false;
+        }
+
+        private void searchPathButton_Click(object sender, EventArgs e)
+        {
+            SearchPathForm searchform = new SearchPathForm();
+            searchform.ShowDialog(this);
+            List<Node> res = manager.Search("A", "P");
         }
     }
 }
