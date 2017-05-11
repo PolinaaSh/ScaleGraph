@@ -154,9 +154,14 @@ namespace ScaleGraph
 
         private void searchPathButton_Click(object sender, EventArgs e)
         {
+            FormDialog.nodes = manager.Graph.Nodes;
             SearchPathForm searchform = new SearchPathForm();
             searchform.ShowDialog(this);
-            List<Node> res = manager.Search("A", "P");
+            if (FormDialog.from != String.Empty && FormDialog.to != String.Empty)
+            {
+                List<Node> res = manager.Search(FormDialog.from, FormDialog.to);
+                graphBox.Image = manager.DrawPath(ClientRectangle, new Point(0, 0), new Point(0, 0), res);
+            }
         }
     }
 }

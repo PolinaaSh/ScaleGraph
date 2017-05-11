@@ -86,6 +86,13 @@ namespace ScaleGraph.Edit
             }
         }
 
+        public Graph Graph
+        {
+            get
+            {
+                return this.graph;
+            }
+        }
 
 
         private void CreateGraph()
@@ -139,6 +146,11 @@ namespace ScaleGraph.Edit
             return drawManager.DrawGraph(rect, scale, drawEdge,  p1, p2, currentVisible);
         }
 
+        public Bitmap DrawPath(Rectangle rect, Point p1, Point p2, List<Node> path)
+        {
+            return drawManager.DrawPath(rect, scale, p1, p2, currentVisible, path);
+        }
+
         private Point CalcilateRealCoordinate(Rectangle rect, Point coordinate)
         {
             int stepX = rect.Width / 2;
@@ -173,30 +185,13 @@ namespace ScaleGraph.Edit
         public List<Node> Search(string from, string to)
         {
             Dictionary<Node, int> minDistance = new Dictionary<Node, int>();
-            List<Node> firstRes = Deikstra(from, minDistance);
-            int numb = 0;
-            foreach(KeyValuePair<Node, int> pair in minDistance)
-            {
-                if (pair.Key.Name != to)
-                    numb++;
-                else
-                {
-                    break;
-                }
-            }
-
-            List<Node> res = firstRes.Take<Node>(numb).ToList<Node>();
-
-            res.Add(graph.Nodes.Find((Node n)=> n.Name == to));
-
-            return res;
-
+            Dictionary<Node, Node> firstRes = Deikstra(from, minDistance);
+            return GeneratePath(from, to, firstRes);           
         }
 
-        public List<Node> Deikstra(String name, Dictionary<Node, int> minDistance)
+        public Dictionary<Node, Node> Deikstra(String name, Dictionary<Node, int> minDistance)
         {
-            List<Node> path = new List<Node>();
-           // path.Add(graph.Nodes.Find((Node n)=> n.Name == name));
+            Dictionary<Node, Node> path = new Dictionary<Node,Node>();
 
             minDistance.Add((graph.Nodes.Find((Node n)=> n.Name == name)),0);
 
@@ -215,12 +210,13 @@ namespace ScaleGraph.Edit
                         if (!minDistance.ContainsKey(edge.NodeSecond) && !visitedNodes.Contains(edge.NodeSecond))
                         {
                             minDistance.Add(edge.NodeSecond, edge.Weight + minDistance[currentNode]);
-                           // path.Add(currentNode);
+                            path.Add(edge.NodeSecond, currentNode);
                         }
                         else
                             if (edge.Weight + minDistance[currentNode] < minDistance[edge.NodeSecond] && !visitedNodes.Contains(edge.NodeSecond))
                             {
                                 minDistance[edge.NodeSecond] = edge.Weight + minDistance[currentNode];
+                                path[edge.NodeSecond] = currentNode;
                             }
 
                     }
@@ -229,15 +225,15 @@ namespace ScaleGraph.Edit
                         if (!minDistance.ContainsKey(edge.NodeFirst) && !visitedNodes.Contains(edge.NodeFirst))
                         {
                             minDistance.Add(edge.NodeFirst, edge.Weight + minDistance[currentNode]);
-                           // path.Add(currentNode);
+                            path.Add(edge.NodeFirst, currentNode);
                         }
                         else
                             if (edge.Weight + minDistance[currentNode] < minDistance[edge.NodeFirst] && !visitedNodes.Contains(edge.NodeFirst))
                             {
                                 minDistance[edge.NodeFirst] = edge.Weight + minDistance[currentNode];
+                                path[edge.NodeFirst] = currentNode;
                             }
                     }
-                    path.Add(currentNode);
                 }
 
                 visitedNodes.Add(currentNode);
@@ -254,6 +250,18 @@ namespace ScaleGraph.Edit
                     }
                 }                       
             }
+            return path;
+        }
+        private List<Node> GeneratePath(string from, string to, Dictionary<Node, Node> res)
+        {
+            Node current = graph.Nodes.Find((Node n) => n.Name == to);
+            List<Node> path = new List<Node>();
+            while(current.Name != from)
+            {
+                path.Add(current);
+                current = res[current];
+            }
+            path.Add(current);
             return path;
         }
       
