@@ -160,8 +160,23 @@ namespace ScaleGraph
             if (FormDialog.from != String.Empty && FormDialog.to != String.Empty)
             {
                 List<Node> res = manager.Search(FormDialog.from, FormDialog.to);
+                manager.CurrentVisible = minVisible(res);
+
+                trackBar.Value = minVisible(res)*2 - 1;
+                manager.Scale = 0.9F + trackBar.Value * 0.1F;
+
                 graphBox.Image = manager.DrawPath(ClientRectangle, new Point(0, 0), new Point(0, 0), res);
             }
+        }
+        private int minVisible(List<Node> nodes)
+        {
+            int min = 1;
+            foreach (Node n in nodes)
+            {
+                if (n.LevelVisible > min)
+                    min = n.LevelVisible;
+            }
+            return min;
         }
     }
 }

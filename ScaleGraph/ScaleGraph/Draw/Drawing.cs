@@ -155,41 +155,44 @@ namespace ScaleGraph.Draw
 
         private void DrawPathEdges(Graphics g, float k, Point p1, Point p2, int currVisible, List<Node> path)
         {
-            foreach (Edge edge in graph.Edges)
+            List<Edge> forDrawPath = new List<Edge>();
+            for (int i = 0; i < path.Count-1; i++)
             {
-                if (edge.LevelVisible <= currVisible)
-                {
-                    float scaleRadius = (float)edge.NodeFirst.Radius * k / edge.LevelVisible;
-                    float firstRadius = (float)edge.NodeFirst.Radius * k / edge.NodeFirst.LevelVisible;
-                    float secondRadius = (float)edge.NodeSecond.Radius * k / edge.NodeSecond.LevelVisible;
-
-                    Pen pen = new Pen(edge.Color, scaleRadius);
-
-                    Point firstPoint = scalePoints[edge.NodeFirst.Name];
-                    Point secondPoint = scalePoints[edge.NodeSecond.Name];
-                    if ((path.Count == 2 && path.Contains(edge.NodeFirst) && path.Contains(edge.NodeSecond)) || 
-                        (path.Contains(edge.NodeFirst) && path.Contains(edge.NodeSecond) && ((path[0] != edge.NodeSecond && path[path.Count - 1] != edge.NodeFirst) && (path[0] != edge.NodeFirst && path[path.Count - 1] != edge.NodeSecond))))
-                    {
-                        Pen p = new Pen(Color.Blue, scaleRadius);
-                        g.DrawLine(p, firstPoint.X + firstRadius, firstPoint.Y + firstRadius, secondPoint.X + secondRadius, secondPoint.Y + secondRadius);
-                    }
-                    else
-                    {
-                        g.DrawLine(pen, firstPoint.X + firstRadius, firstPoint.Y + firstRadius, secondPoint.X + secondRadius, secondPoint.Y + secondRadius);
-                    }
-
-                    pen.Dispose();
-
-                    Point weightPnt = new Point((firstPoint.X + secondPoint.X) / 2 - 5, (firstPoint.Y + secondPoint.Y) / 2 - 5);
-                    Font font = new Font("Arial", 14);
-                    g.DrawString(edge.Weight.ToString(), font, new SolidBrush(Color.Black), weightPnt);
-
-                }
-                for(int i=0 ;i<path.Count-1;i++)
-                {
-
-                }
+                Edge edge = graph.Edges.Find((Edge e) => ((e.NodeFirst == path[i] && e.NodeSecond == path[i + 1]) || (e.NodeSecond == path[i] && e.NodeFirst == path[i + 1])));
+                if(edge != null)
+                    forDrawPath.Add(edge);
             }
+            
+            foreach (Edge edge in graph.Edges)
+                {
+                    if (edge.LevelVisible <= currVisible)
+                    {
+                        float scaleRadius = (float)edge.NodeFirst.Radius * k / edge.LevelVisible;
+                        float firstRadius = (float)edge.NodeFirst.Radius * k / edge.NodeFirst.LevelVisible;
+                        float secondRadius = (float)edge.NodeSecond.Radius * k / edge.NodeSecond.LevelVisible;
+
+                        Pen pen = new Pen(edge.Color, scaleRadius);
+
+                        Point firstPoint = scalePoints[edge.NodeFirst.Name];
+                        Point secondPoint = scalePoints[edge.NodeSecond.Name];
+                        if (forDrawPath.Contains(edge))
+                        {
+                            Pen p = new Pen(Color.Blue, scaleRadius);
+                            g.DrawLine(p, firstPoint.X + firstRadius, firstPoint.Y + firstRadius, secondPoint.X + secondRadius, secondPoint.Y + secondRadius);
+                        }
+                        else
+                        {
+                        g.DrawLine(pen, firstPoint.X + firstRadius, firstPoint.Y + firstRadius, secondPoint.X + secondRadius, secondPoint.Y + secondRadius);
+                        }
+
+                        pen.Dispose();
+
+                        Point weightPnt = new Point((firstPoint.X + secondPoint.X) / 2 - 5, (firstPoint.Y + secondPoint.Y) / 2 - 5);
+                        Font font = new Font("Arial", 14);
+                        g.DrawString(edge.Weight.ToString(), font, new SolidBrush(Color.Black), weightPnt);
+
+                    }
+                }
            
         }
 
