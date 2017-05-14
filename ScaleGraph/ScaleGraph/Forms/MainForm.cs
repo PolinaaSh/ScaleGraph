@@ -17,12 +17,7 @@ namespace ScaleGraph
     public partial class MainForm : Form
     {
         Edit.EditManger manager;
-        bool addNode;
-        bool addEdge;
-
-        bool removeNode;
-        bool removeEdge;
-
+       
         int edgeCount;
 
         MouseEventArgs node1;
@@ -31,11 +26,11 @@ namespace ScaleGraph
         {
             InitializeComponent();
 
+            showRadioButton.Checked = true;
             manager = new Edit.EditManger();
 
             DrawGraph();
 
-            addNode = false;
             edgeCount = 2;
         }
 
@@ -44,17 +39,9 @@ namespace ScaleGraph
 
         }
 
-        private void AddNodeButton_Click(object sender, EventArgs e)
-        {
-            addEdge = false;
-            removeNode = false;
-            removeEdge = false;
-            addNode = true;
-        }
-
         private void graphBox_Click(object sender, EventArgs e)
         {
-            if (addNode)
+            if (addNodeRadioButton.Checked)
             {
                 MouseEventArgs e1 = (MouseEventArgs)e;
                 AddNodeForm addForm = new AddNodeForm();
@@ -63,9 +50,8 @@ namespace ScaleGraph
                     manager.AddNode(ClientRectangle,new Point(e1.X, e1.Y), FormDialog.nodeName);
                 FormDialog.nodeName = String.Empty;
                 DrawGraph();
-                addNode = false;
             }
-            else if(addEdge)
+            else if(addEdgeRadioButton.Checked)
             {
                 if(edgeCount==2)
                 {
@@ -81,20 +67,17 @@ namespace ScaleGraph
                     FormDialog.edgeWeight = -1;
                     DrawGraph();
                     edgeCount = 2;
-                    addEdge = false;
                 }
             }
-            else if (removeNode)
+            else if (removeNodeRadioButton.Checked)
             {
                 manager.RemoveNode(new Point(((MouseEventArgs)e).X, ((MouseEventArgs)e).Y));
                 DrawGraph();
-                removeNode = false;
             }
-            else if(removeEdge)
+            else if(removeEdgeRadioButton.Checked)
             {
                 manager.RemoveEdge(new Point(((MouseEventArgs)e).X, ((MouseEventArgs)e).Y));
                 DrawGraph();
-                removeEdge = false;
             }
         }
 
@@ -103,17 +86,9 @@ namespace ScaleGraph
             manager.SaveGraph();
         }
 
-        private void AddEdgeButton_Click(object sender, EventArgs e)
-        {
-            addNode = false;
-            removeNode = false;
-            removeEdge = false;
-            addEdge = true;
-        }
-
         private void graphBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if(addEdge && edgeCount == 1)
+            if(addEdgeRadioButton.Checked && edgeCount == 1)
             {
                 graphBox.Image = manager.Draw(ClientRectangle, true, node1.Location, e.Location);
             }
@@ -126,48 +101,11 @@ namespace ScaleGraph
                 DrawGraph();                
         }
 
-        private void trackBar_ValueChanged(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void RemoveNodeButton_Click(object sender, EventArgs e)
-        {
-            addNode = false;
-            addEdge = false;
-            removeEdge = false;
-            removeNode = true;
-        }
-
         public void DrawGraph()
         {
             graphBox.Image = manager.Draw(ClientRectangle, false, new Point(0, 0), new Point(0, 0));
         }
 
-        private void removeEdgeButton_Click(object sender, EventArgs e)
-        {
-            removeEdge = true;
-            addNode = false;
-            addEdge = false;
-            removeNode = false;
-        }
-
-        private void searchPathButton_Click(object sender, EventArgs e)
-        {
-            FormDialog.nodes = manager.Graph.Nodes;
-            SearchPathForm searchform = new SearchPathForm();
-            searchform.ShowDialog(this);
-            if (FormDialog.from != String.Empty && FormDialog.to != String.Empty)
-            {
-                List<Node> res = manager.Search(FormDialog.from, FormDialog.to);
-                manager.CurrentVisible = minVisible(res);
-
-                trackBar.Value = minVisible(res)*2 - 1;
-                manager.Scale = 0.9F + trackBar.Value * 0.1F;
-
-                graphBox.Image = manager.DrawPath(ClientRectangle, new Point(0, 0), new Point(0, 0), res);
-            }
-        }
         private int minVisible(List<Node> nodes)
         {
             int min = 1;
@@ -177,6 +115,26 @@ namespace ScaleGraph
                     min = n.LevelVisible;
             }
             return min;
+        }
+
+        private void searchRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (searchRadioButton.Checked)
+            {
+                FormDialog.nodes = manager.Graph.Nodes;
+                SearchPathForm searchform = new SearchPathForm();
+                searchform.ShowDialog(this);
+                if (FormDialog.from != String.Empty && FormDialog.to != String.Empty)
+                {
+                    List<Node> res = manager.Search(FormDialog.from, FormDialog.to);
+                    manager.CurrentVisible = minVisible(res);
+
+                    trackBar.Value = minVisible(res) * 2 - 1;
+                    manager.Scale = 0.9F + trackBar.Value * 0.1F;
+
+                    graphBox.Image = manager.DrawPath(ClientRectangle, new Point(0, 0), new Point(0, 0), res);
+                }
+            }
         }
     }
 }

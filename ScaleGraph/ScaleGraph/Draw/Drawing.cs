@@ -64,6 +64,20 @@ namespace ScaleGraph.Draw
             return res;
         }
 
+        private void SetScaleCoordinate( Rectangle r,float scale, int currVisible)
+        {
+            scalePoints.Clear();
+            foreach (Node n in graph.Nodes)
+            {
+                if (n.LevelVisible <= currVisible)
+                {
+                    Point scalepoint = Scale(r, scale, n);
+                    scalePoints.Add(n.Name, scalepoint);
+
+                }
+            }
+        }
+
         private void DrawNodes(Graphics g, Rectangle r, float scale, int currVisible)
         {
             foreach (Node n in graph.Nodes)
@@ -73,15 +87,11 @@ namespace ScaleGraph.Draw
                     Brush brush = new SolidBrush(n.Color);
                     float scaleRadius = (float)n.Radius * scale / n.LevelVisible;
 
-                    Point scalepoint = Scale(r, scale, n);
-
-                    g.FillEllipse(brush, scalepoint.X, scalepoint.Y, scaleRadius * 2, scaleRadius * 2);
+                    g.FillEllipse(brush, scalePoints[n.Name].X, scalePoints[n.Name].Y, scaleRadius * 2, scaleRadius * 2);
 
                     Font font = new Font("Arial",10);
 
-                    g.DrawString(n.Name,font, new SolidBrush(Color.Black),scalepoint.X-15, scalepoint.Y-15);
-
-                    scalePoints.Add(n.Name, scalepoint);
+                    g.DrawString(n.Name, font, new SolidBrush(Color.Black), scalePoints[n.Name].X - 15, scalePoints[n.Name].Y - 15);
 
                     brush.Dispose();
                 }
@@ -96,23 +106,19 @@ namespace ScaleGraph.Draw
                 {
                     Brush brush = new SolidBrush(n.Color);
                     float scaleRadius = (float)n.Radius * scale / n.LevelVisible;
-
-                    Point scalepoint = Scale(r, scale, n);
                     if (path.Contains(n))
                     {
-                        Brush b = new SolidBrush(Color.Blue);
-                        g.FillEllipse(b, scalepoint.X, scalepoint.Y, scaleRadius * 2, scaleRadius * 2);
+                        Brush b = new SolidBrush(Color.MediumBlue);
+                        g.FillEllipse(b, scalePoints[n.Name].X, scalePoints[n.Name].Y, scaleRadius * 2, scaleRadius * 2);
                     }
                     else
                     {
-                        g.FillEllipse(brush, scalepoint.X, scalepoint.Y, scaleRadius * 2, scaleRadius * 2);
+                        g.FillEllipse(brush, scalePoints[n.Name].X, scalePoints[n.Name].Y, scaleRadius * 2, scaleRadius * 2);
                     }
 
                     Font font = new Font("Arial", 10);
 
-                    g.DrawString(n.Name, font, new SolidBrush(Color.Black), scalepoint.X - 15, scalepoint.Y - 15);
-
-                    scalePoints.Add(n.Name, scalepoint);
+                    g.DrawString(n.Name, font, new SolidBrush(Color.Black), scalePoints[n.Name].X - 15, scalePoints[n.Name].Y - 15);
 
                     brush.Dispose();
                 }
@@ -177,7 +183,7 @@ namespace ScaleGraph.Draw
                         Point secondPoint = scalePoints[edge.NodeSecond.Name];
                         if (forDrawPath.Contains(edge))
                         {
-                            Pen p = new Pen(Color.Blue, scaleRadius);
+                            Pen p = new Pen(Color.MediumBlue, scaleRadius);
                             g.DrawLine(p, firstPoint.X + firstRadius, firstPoint.Y + firstRadius, secondPoint.X + secondRadius, secondPoint.Y + secondRadius);
                         }
                         else
@@ -200,13 +206,12 @@ namespace ScaleGraph.Draw
         {
 
             Bitmap bitmap = new Bitmap(r.Width, r.Height);
-            scalePoints.Clear();
             using (Graphics g = Graphics.FromImage(bitmap))
             {
-                g.FillRectangle(new SolidBrush(Color.LightGreen),r);
-                DrawNodes(g, r, k, currVisible);
-                DrawEdges(g,k,drawEdge,p1, p2, currVisible);
-               
+                g.FillRectangle(new SolidBrush(Color.PaleGreen), r);
+                SetScaleCoordinate(r, k, currVisible);
+                DrawEdges(g, k, drawEdge, p1, p2, currVisible);
+                DrawNodes(g, r, k, currVisible);              
             }
             return bitmap;
         }
@@ -217,9 +222,10 @@ namespace ScaleGraph.Draw
             scalePoints.Clear();
             using (Graphics g = Graphics.FromImage(bitmap))
             {
-                g.FillRectangle(new SolidBrush(Color.LightGreen), r);
+                g.FillRectangle(new SolidBrush(Color.PaleGreen), r);
+                SetScaleCoordinate(r, k, currVisible);
+                DrawPathEdges(g, k, p1, p2, currVisible, path);
                 DrawPathNodes(g, r, k, currVisible,path);
-                DrawPathEdges(g, k, p1, p2, currVisible,path);
             }
             return bitmap;
         }

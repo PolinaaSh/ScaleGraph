@@ -14,7 +14,8 @@ namespace ScaleGraph.Edit
     class EditManger
     {
         private int currentVisible;
-        private Color currentColor;
+        private Color currentNodeColor;
+        private Color currentEdgeColor;
         private float currentRadius;
         private float scale;
 
@@ -33,7 +34,8 @@ namespace ScaleGraph.Edit
             drawManager = new Drawing(graph);
             currentVisible = 1;
             scale = 1;
-            currentColor = Color.Gray;
+            currentNodeColor = Color.Gray;
+            currentEdgeColor = Color.DimGray;
             currentRadius = 5F;
         }
 
@@ -53,11 +55,11 @@ namespace ScaleGraph.Edit
         {
             get
             {
-                return currentColor;
+                return currentNodeColor;
             }
             set
             {
-                currentColor = value;
+                currentNodeColor = value;
             }
         }
 
@@ -109,12 +111,12 @@ namespace ScaleGraph.Edit
 
         public void AddNode( Rectangle rect,Point coordinate, string name)
         {
-           graph.AddNode(currentVisible, currentColor,  CalcilateRealCoordinate(rect,coordinate), currentRadius, name);
+           graph.AddNode(currentVisible, currentNodeColor,  CalcilateRealCoordinate(rect,coordinate), currentRadius, name);
         }
 
         public void AddEdge( Point firstCoordinate, Point secondCoordinate, int weight, float width)
         {
-            graph.AddEdge(currentVisible,firstCoordinate, secondCoordinate, currentColor, weight, width, drawManager.ScalePoints);
+            graph.AddEdge(currentVisible,firstCoordinate, secondCoordinate, currentEdgeColor, weight, width, drawManager.ScalePoints);
         }
 
         public void RemoveNode(Point nodeCoordinate)

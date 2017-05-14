@@ -28,44 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.AddNodeButton = new System.Windows.Forms.Button();
-            this.AddEdgeButton = new System.Windows.Forms.Button();
             this.graphBox = new System.Windows.Forms.PictureBox();
             this.trackBar = new System.Windows.Forms.TrackBar();
-            this.RemoveNodeButton = new System.Windows.Forms.Button();
-            this.removeEdgeButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.searchPathButton = new System.Windows.Forms.Button();
+            this.searchRadioButton = new System.Windows.Forms.RadioButton();
+            this.removeEdgeRadioButton = new System.Windows.Forms.RadioButton();
+            this.removeNodeRadioButton = new System.Windows.Forms.RadioButton();
+            this.addEdgeRadioButton = new System.Windows.Forms.RadioButton();
+            this.addNodeRadioButton = new System.Windows.Forms.RadioButton();
+            this.label1 = new System.Windows.Forms.Label();
+            this.showRadioButton = new System.Windows.Forms.RadioButton();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.graphBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // AddNodeButton
-            // 
-            this.AddNodeButton.Location = new System.Drawing.Point(10, 30);
-            this.AddNodeButton.Name = "AddNodeButton";
-            this.AddNodeButton.Size = new System.Drawing.Size(75, 23);
-            this.AddNodeButton.TabIndex = 1;
-            this.AddNodeButton.Text = "AddNode";
-            this.AddNodeButton.UseVisualStyleBackColor = true;
-            this.AddNodeButton.Click += new System.EventHandler(this.AddNodeButton_Click);
-            // 
-            // AddEdgeButton
-            // 
-            this.AddEdgeButton.Location = new System.Drawing.Point(10, 70);
-            this.AddEdgeButton.Name = "AddEdgeButton";
-            this.AddEdgeButton.Size = new System.Drawing.Size(75, 23);
-            this.AddEdgeButton.TabIndex = 2;
-            this.AddEdgeButton.Text = "AddEdge";
-            this.AddEdgeButton.UseVisualStyleBackColor = true;
-            this.AddEdgeButton.Click += new System.EventHandler(this.AddEdgeButton_Click);
             // 
             // graphBox
             // 
-            this.graphBox.Location = new System.Drawing.Point(147, 12);
+            this.graphBox.Location = new System.Drawing.Point(3, 5);
             this.graphBox.Name = "graphBox";
             this.graphBox.Size = new System.Drawing.Size(1026, 579);
+            this.graphBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.graphBox.TabIndex = 3;
             this.graphBox.TabStop = false;
             this.graphBox.Click += new System.EventHandler(this.graphBox_Click);
@@ -73,7 +58,7 @@
             // 
             // trackBar
             // 
-            this.trackBar.Location = new System.Drawing.Point(2, 261);
+            this.trackBar.Location = new System.Drawing.Point(2, 268);
             this.trackBar.Maximum = 8;
             this.trackBar.Minimum = 1;
             this.trackBar.Name = "trackBar";
@@ -81,67 +66,127 @@
             this.trackBar.TabIndex = 4;
             this.trackBar.Value = 1;
             this.trackBar.Scroll += new System.EventHandler(this.trackBar_Scroll);
-            this.trackBar.ValueChanged += new System.EventHandler(this.trackBar_ValueChanged);
-            // 
-            // RemoveNodeButton
-            // 
-            this.RemoveNodeButton.Location = new System.Drawing.Point(10, 110);
-            this.RemoveNodeButton.Name = "RemoveNodeButton";
-            this.RemoveNodeButton.Size = new System.Drawing.Size(88, 23);
-            this.RemoveNodeButton.TabIndex = 5;
-            this.RemoveNodeButton.Text = "Remove Node";
-            this.RemoveNodeButton.UseVisualStyleBackColor = true;
-            this.RemoveNodeButton.Click += new System.EventHandler(this.RemoveNodeButton_Click);
-            // 
-            // removeEdgeButton
-            // 
-            this.removeEdgeButton.Location = new System.Drawing.Point(10, 151);
-            this.removeEdgeButton.Name = "removeEdgeButton";
-            this.removeEdgeButton.Size = new System.Drawing.Size(88, 23);
-            this.removeEdgeButton.TabIndex = 6;
-            this.removeEdgeButton.Text = "Remove Edge";
-            this.removeEdgeButton.UseVisualStyleBackColor = true;
-            this.removeEdgeButton.Click += new System.EventHandler(this.removeEdgeButton_Click);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.searchPathButton);
-            this.groupBox1.Controls.Add(this.removeEdgeButton);
-            this.groupBox1.Controls.Add(this.AddNodeButton);
-            this.groupBox1.Controls.Add(this.RemoveNodeButton);
-            this.groupBox1.Controls.Add(this.AddEdgeButton);
-            this.groupBox1.Location = new System.Drawing.Point(2, 27);
+            this.groupBox1.Controls.Add(this.showRadioButton);
+            this.groupBox1.Controls.Add(this.searchRadioButton);
+            this.groupBox1.Controls.Add(this.removeEdgeRadioButton);
+            this.groupBox1.Controls.Add(this.removeNodeRadioButton);
+            this.groupBox1.Controls.Add(this.addEdgeRadioButton);
+            this.groupBox1.Controls.Add(this.addNodeRadioButton);
+            this.groupBox1.Location = new System.Drawing.Point(2, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(127, 228);
+            this.groupBox1.Size = new System.Drawing.Size(139, 208);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Edit";
             // 
-            // searchPathButton
+            // searchRadioButton
             // 
-            this.searchPathButton.Location = new System.Drawing.Point(10, 188);
-            this.searchPathButton.Name = "searchPathButton";
-            this.searchPathButton.Size = new System.Drawing.Size(88, 23);
-            this.searchPathButton.TabIndex = 7;
-            this.searchPathButton.Text = "Search";
-            this.searchPathButton.UseVisualStyleBackColor = true;
-            this.searchPathButton.Click += new System.EventHandler(this.searchPathButton_Click);
+            this.searchRadioButton.AutoSize = true;
+            this.searchRadioButton.Location = new System.Drawing.Point(6, 155);
+            this.searchRadioButton.Name = "searchRadioButton";
+            this.searchRadioButton.Size = new System.Drawing.Size(82, 17);
+            this.searchRadioButton.TabIndex = 4;
+            this.searchRadioButton.TabStop = true;
+            this.searchRadioButton.Text = "Поиск пути";
+            this.searchRadioButton.UseVisualStyleBackColor = true;
+            this.searchRadioButton.CheckedChanged += new System.EventHandler(this.searchRadioButton_CheckedChanged);
+            // 
+            // removeEdgeRadioButton
+            // 
+            this.removeEdgeRadioButton.AutoSize = true;
+            this.removeEdgeRadioButton.Location = new System.Drawing.Point(6, 115);
+            this.removeEdgeRadioButton.Name = "removeEdgeRadioButton";
+            this.removeEdgeRadioButton.Size = new System.Drawing.Size(101, 17);
+            this.removeEdgeRadioButton.TabIndex = 3;
+            this.removeEdgeRadioButton.TabStop = true;
+            this.removeEdgeRadioButton.Text = "Удалить ребро";
+            this.removeEdgeRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // removeNodeRadioButton
+            // 
+            this.removeNodeRadioButton.AutoSize = true;
+            this.removeNodeRadioButton.Location = new System.Drawing.Point(6, 92);
+            this.removeNodeRadioButton.Name = "removeNodeRadioButton";
+            this.removeNodeRadioButton.Size = new System.Drawing.Size(114, 17);
+            this.removeNodeRadioButton.TabIndex = 2;
+            this.removeNodeRadioButton.TabStop = true;
+            this.removeNodeRadioButton.Text = "Удалить вершину";
+            this.removeNodeRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // addEdgeRadioButton
+            // 
+            this.addEdgeRadioButton.AutoSize = true;
+            this.addEdgeRadioButton.Location = new System.Drawing.Point(6, 51);
+            this.addEdgeRadioButton.Name = "addEdgeRadioButton";
+            this.addEdgeRadioButton.Size = new System.Drawing.Size(108, 17);
+            this.addEdgeRadioButton.TabIndex = 1;
+            this.addEdgeRadioButton.TabStop = true;
+            this.addEdgeRadioButton.Text = "Добавить ребро";
+            this.addEdgeRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // addNodeRadioButton
+            // 
+            this.addNodeRadioButton.AutoSize = true;
+            this.addNodeRadioButton.Location = new System.Drawing.Point(6, 28);
+            this.addNodeRadioButton.Name = "addNodeRadioButton";
+            this.addNodeRadioButton.Size = new System.Drawing.Size(121, 17);
+            this.addNodeRadioButton.TabIndex = 0;
+            this.addNodeRadioButton.TabStop = true;
+            this.addNodeRadioButton.Text = "Добавить вершину";
+            this.addNodeRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(5, 243);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(101, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Масштабирование";
+            // 
+            // showRadioButton
+            // 
+            this.showRadioButton.AutoSize = true;
+            this.showRadioButton.Location = new System.Drawing.Point(6, 185);
+            this.showRadioButton.Name = "showRadioButton";
+            this.showRadioButton.Size = new System.Drawing.Size(76, 17);
+            this.showRadioButton.TabIndex = 5;
+            this.showRadioButton.TabStop = true;
+            this.showRadioButton.Text = "Просмотр";
+            this.showRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.graphBox);
+            this.panel1.Location = new System.Drawing.Point(148, 23);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1032, 584);
+            this.panel1.TabIndex = 11;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1185, 607);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.trackBar);
-            this.Controls.Add(this.graphBox);
             this.Controls.Add(this.groupBox1);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "ScaleGraph";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.graphBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).EndInit();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -156,7 +201,14 @@
         private System.Windows.Forms.Button RemoveNodeButton;
         private System.Windows.Forms.Button removeEdgeButton;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button searchPathButton;
+        private System.Windows.Forms.RadioButton searchRadioButton;
+        private System.Windows.Forms.RadioButton removeEdgeRadioButton;
+        private System.Windows.Forms.RadioButton removeNodeRadioButton;
+        private System.Windows.Forms.RadioButton addEdgeRadioButton;
+        private System.Windows.Forms.RadioButton addNodeRadioButton;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RadioButton showRadioButton;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 
